@@ -38,12 +38,19 @@ DRY_RUN        = os.environ.get("DRY_RUN", "1") != "0"
 BET_AMOUNT     = float(os.environ.get("BET_AMOUNT", "1"))        # fallback flat bet (dry)
 MAX_BET        = float(os.environ.get("MAX_BET", "3"))            # ceiling per live trade (USDT)
 MIN_BET        = float(os.environ.get("MIN_BET", "0.5"))          # floor when marginally confident
-STRONG_EDGE    = float(os.environ.get("STRONG_EDGE", "0.06"))      # edge at which bet = MAX_BET
-EDGE_THRESHOLD = float(os.environ.get("EDGE_THRESHOLD", "0.03"))   # net edge required to enter at all
-SLIPPAGE_BPS   = int(os.environ.get("SLIPPAGE_BPS", "300"))        # tight slippage (3%) for live quotes
+STRONG_EDGE    = float(os.environ.get("STRONG_EDGE", "0.10"))      # edge at which bet = MAX_BET
+MIN_EDGE_NET   = float(os.environ.get("MIN_EDGE_NET", "0.05"))      # MINIMUM net edge after fee+slip to ENTER (jangan asal masuk)
+EDGE_THRESHOLD = MIN_EDGE_NET                                       # alias (legacy guard uses this)
+SLIPPAGE_BPS   = int(os.environ.get("SLIPPAGE_BPS", "300"))         # tight slippage (3%) for live quotes
 MIN_LIQUIDITY  = float(os.environ.get("MIN_LIQUIDITY", "2000"))
 MIN_TTE_MS     = int(os.environ.get("MIN_TIME_TO_END_MS", "60000"))
 COOLDOWN_LOSSES= int(os.environ.get("COOLDOWN_LOSSES", "3"))
+# --- mean-reversion edge signal (backtested ~53% hit, ~55% on small body) ---
+BODY_MAX       = float(os.environ.get("BODY_MAX", "0.0005"))         # only trade reversal if last candle body < 0.05%
+TREND_LOOKBACK = int(os.environ.get("TREND_LOOKBACK", "3"))           # if last N candles same dir -> TRENDING -> skip
+MAX_PRICE_EXT  = float(os.environ.get("MAX_PRICE_EXT", "0.85"))       # skip if either side price > 85% (strong move, mean-rev fails)
+REVERSAL_PROB  = float(os.environ.get("REVERSAL_PROB", "0.52"))       # conservative calibrated reversal prob (below 55% backtest)
+KLINES_URL     = os.environ.get("KLINES_URL", "https://data-api.binance.vision/api/v3/klines")
 GH_REPO        = os.environ.get("GH_REPO", "")
 GH_TOKEN       = os.environ.get("GITHUB_TOKEN", "")
 BAW            = os.environ.get("BAW_BIN", "baw")
@@ -107,6 +114,52 @@ def map_to_desk(p):
     img = (p.get("imageUrl") or "").lower()
     if "automarket-btc-usd-5-minutes" in img: return DESK
     return None
+
+def fetch_btc_klines(interval="5m", limit=30):
+    """Fetch recent BTC 5m klines from Binance public market-data API (no key needed)."""
+    url = f"{KLINES_URL}?symbol={SCOPE_SYMBOL}&interval={interval}&limit={limit}"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent":"prediction-desk/1.2"})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            rows = json.loads(r.read())
+        # each row: [openTime, open, high, low, close, volume, closeTime, ...]
+        return [{"o":float(x[1]),"h":float(x[2]),"l":float(x[3]),"c":float(x[4]),"t":x[0],"ct":x[6]} for x in rows]
+    except Exception as e:
+        return None
+
+def compute_meanrev_signal():
+    """Mean-reversion signal on the last CLOSED 5m candle.
+
+    Returns dict with: signal_side ("Up"/"Down" or None), my_prob (float), body, regime
+    ("CHOPPY"/"TRENDING"/"NO_DATA"), reason.
+
+    Signal = predict REVERSAL of the last completed candle, but ONLY enter if:
+      - last candle body < BODY_MAX (small body -> stronger reversal in backtest)
+      - last TREND_LOOKBACK candles are NOT all same direction (no strong trend -> mean-rev fails)
+    Calibrated reversal prob = REVERSAL_PROB (0.52, conservative vs ~55% backtest).
+    """
+    kl = fetch_btc_klines("5m", max(30, TREND_LOOKBACK+5))
+    if not kl or len(kl) < TREND_LOOKBACK+2:
+        return {"signal_side":None,"my_prob":None,"body":None,"regime":"NO_DATA","reason":"no klines"}
+    # use only candles that have CLOSED (exclude the currently-forming one: the last in list)
+    closed = kl[:-1]
+    last = closed[-1]
+    body = abs(last["c"] - last["o"]) / last["o"] if last["o"]>0 else 0.0
+    last_dir = 1 if last["c"] > last["o"] else (-1 if last["c"] < last["o"] else 0)
+    # trend check: last TREND_LOOKBACK closed candles all same direction?
+    dirs = [ (1 if c["c"]>c["o"] else (-1 if c["c"]<c["o"] else 0)) for c in closed[-TREND_LOOKBACK:] ]
+    trending = (len(set(dirs))==1 and dirs[0]!=0)
+    if last_dir == 0:
+        return {"signal_side":None,"my_prob":None,"body":round(body,6),"regime":"FLAT","reason":"last candle doji"}
+    signal_side = "Up" if last_dir == -1 else "Down"   # reverse the last move
+    if body >= BODY_MAX:
+        return {"signal_side":signal_side,"my_prob":None,"body":round(body,6),"regime":"BODY_TOO_LARGE",
+                "reason":f"body {body:.5f} >= BODY_MAX {BODY_MAX} (signal weak)"}
+    if trending:
+        return {"signal_side":signal_side,"my_prob":None,"body":round(body,6),"regime":"TRENDING",
+                "reason":f"last {TREND_LOOKBACK} candles all same dir (mean-rev fails in trend)"}
+    return {"signal_side":signal_side,"my_prob":REVERSAL_PROB,"body":round(body,6),"regime":"CHOPPY",
+            "reason":f"small-body reversal ({signal_side}); my_prob={REVERSAL_PROB}"}
 
 def phase_settle(state):
     """Realize PnL from new settled positions; append a point to pnl_history."""
@@ -207,27 +260,54 @@ def phase_analyze(state):
     return d
 
 def phase_plan(state, m):
-    """Compute net edge per side; pick best; filter."""
-    phase={"name":"Rencanakan","status":"OK","detail":"","best":None}
+    """Compute edge from the MEAN-REVERSION SIGNAL (not market chance) and gate entry.
+
+    Filters (all must pass to enter — 'jangan asal masuk'):
+      1. signal present (last candle body < BODY_MAX, small body)
+      2. not TRENDING (last N candles not all same dir — mean-rev fails in trends)
+      3. not extreme market price (neither side > MAX_PRICE_EXT — strong move)
+      4. edge_net = my_prob - price - fee - slip >= MIN_EDGE_NET
+      5. liquidity + TTE + not-cooldown
+    """
+    phase={"name":"Rencanakan","status":"SKIP","detail":"","best":None,"signal":None}
     outs=state["market"]["outcomes"]
     fee=float(state["market"].get("feeRateBps",0))/1e4
-    slip=SLIPPAGE_BPS/1e4   # use tight slippage, not the market's 10% default, for edge + live quotes
-    best=None
-    for o in outs:
-        price=float(o.get("price",0) or 0); chance=float(o.get("chance",0) or 0)
-        edge_net=(chance-price)-fee-slip
-        if best is None or edge_net>best["edge_net"]:
-            best={"side":o["name"],"price":price,"chance":chance,"edge_gross":round(chance-price,4),
-                  "fee":fee,"slip":slip,"edge_net":round(edge_net,4),"tokenId":o.get("tokenId")}
-    state["market"]["best"]=best
+    slip=SLIPPAGE_BPS/1e4
     liq=state["market"]["liquidity"]; tte=(state["market"].get("endDate") or 0)-now_ms()
     state["market"]["tte_ms"]=tte
-    # cooldown from realized losses
+    sig=compute_meanrev_signal()
+    phase["signal"]=sig
+    by_name={o.get("name"):o for o in outs}
+    best=None
+    if sig["signal_side"] and sig["my_prob"] is not None and sig["signal_side"] in by_name:
+        o=by_name[sig["signal_side"]]
+        price=float(o.get("price",0) or 0); my_prob=float(sig["my_prob"])
+        edge_gross=my_prob-price; edge_net=edge_gross-fee-slip
+        best={"side":sig["signal_side"],"price":price,"my_prob":my_prob,
+              "edge_gross":round(edge_gross,4),"fee":fee,"slip":slip,
+              "edge_net":round(edge_net,4),"tokenId":o.get("tokenId"),
+              "signal_regime":sig["regime"],"signal_body":sig["body"]}
+    state["market"]["best"]=best
+    extreme = any(float(o.get("price",0) or 0) > MAX_PRICE_EXT for o in outs)
     cooldown = state["pnl"]["losses"] >= COOLDOWN_LOSSES
-    checks={"edge":best and best["edge_net"]>=EDGE_THRESHOLD,
-            "liquidity":liq>=MIN_LIQUIDITY,"tte":tte>=MIN_TTE_MS,"cooldown":not cooldown}
+    checks={"signal":best is not None,
+            "edge":best is not None and best["edge_net"]>=MIN_EDGE_NET,
+            "extreme":not extreme,"liquidity":liq>=MIN_LIQUIDITY,
+            "tte":tte>=MIN_TTE_MS,"cooldown":not cooldown}
     phase["best"]=best; phase["checks"]=checks
-    phase["detail"]=f"best={best['side'] if best else '-'} edge_net={best['edge_net'] if best else '-'} | liq ${liq:.0f} tte {tte}ms | pass={checks}"
+    if best:
+        phase["detail"]=(f"{best['side']} price={best['price']} my_prob={best['my_prob']} "
+                          f"edge_net={best['edge_net']} (req>={MIN_EDGE_NET}) | liq ${liq:.0f} tte {tte}ms | "
+                          f"regime={sig['regime']} body={sig['body']} extreme={extreme} | pass={checks}")
+        phase["status"]="OK"
+        if extreme:
+            phase["status"]="SKIP"; phase["detail"]+=f" | SKIP: price extreme (>{MAX_PRICE_EXT})"
+            state["errors"].append({"where":"plan","code":"PRICE_EXTREME","diag":f"One side > {MAX_PRICE_EXT}: strong move, mean-reversion unreliable. Skipping."})
+        elif best["edge_net"] < MIN_EDGE_NET:
+            phase["status"]="SKIP"; phase["detail"]+=f" | SKIP: edge {best['edge_net']} < MIN {MIN_EDGE_NET}"
+    else:
+        phase["detail"]=(f"no signal ({sig['regime']}: {sig['reason']}) | liq ${liq:.0f} tte {tte}ms | "
+                          f"extreme={extreme} | pass={checks}")
     if cooldown:
         phase["status"]="COOLDOWN"; phase["detail"]+=f" | COOLDOWN ({state['pnl']['losses']} losses >= {COOLDOWN_LOSSES})"
         state["errors"].append({"where":"plan","code":"COOLDOWN","diag":f"{DESK} paused after {state['pnl']['losses']} realized losses >= {COOLDOWN_LOSSES}. Hypothesis: adverse regime; pause until losses age out / edge model is reviewed."})
