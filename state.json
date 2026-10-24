@@ -1,6 +1,6 @@
 {
- "run_id": "9f50ab4ef8",
- "ts": "2026-10-24T20:21:20.420960+00:00",
+ "run_id": "46c9b3af26",
+ "ts": "2026-10-24T20:26:34.749365+00:00",
  "dry_run": true,
  "desk": "BTC-5m",
  "scope_symbol": "BTCUSDT",
@@ -16,25 +16,8 @@
   "min_tte_ms": 60000,
   "cooldown_losses": 3
  },
- "auth": "CONNECTED",
- "balance": [
-  {
-   "symbol": "USDT",
-   "address": "0x55d398326f99059fF775485246999027B3197955",
-   "binanceChainId": "56",
-   "balance": "15.611883989104469689",
-   "price": "0.998634673037831801726444980896136014",
-   "value": "15.590568662963904"
-  },
-  {
-   "symbol": "BNB",
-   "address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-   "binanceChainId": "56",
-   "balance": "0.000102891103345",
-   "price": "730.899012586715864538819562201653127356",
-   "value": "0.07520300583881824"
-  }
- ],
+ "auth": "UNKNOWN",
+ "balance": [],
  "phases": [
   {
    "name": "Settle",
@@ -45,84 +28,22 @@
   },
   {
    "name": "Analisa",
-   "status": "OK",
-   "detail": "topic 7421967 | 2 outcomes | liq $14916",
-   "marketTopicId": 7421967
+   "status": "ERROR",
+   "detail": "Wallet not logged in. baw session is at ~/.baw/session.json (local disk) \u2014 wiped on sandbox reset. Re-pair via `baw auth signin` (QR scan). baw binary persists in the agent snapshot; the session does not.",
+   "marketTopicId": null
   },
   {
    "name": "Rencanakan",
-   "status": "COOLDOWN",
-   "detail": "best=Down edge_net=-0.045 | liq $14916 tte 216307ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (5 losses >= 3)",
-   "best": {
-    "side": "Down",
-    "price": 0.64,
-    "chance": 0.645,
-    "edge_gross": 0.005,
-    "fee": 0.02,
-    "slip": 0.03,
-    "edge_net": -0.045,
-    "tokenId": "84856589569123927074952347520104318956878997341950174439860176966511378596641"
-   },
-   "checks": {
-    "edge": false,
-    "liquidity": true,
-    "tte": true,
-    "cooldown": false
-   }
+   "status": "SKIP",
+   "detail": "no market"
   },
   {
    "name": "Memutuskan+Eksekusi",
    "status": "SKIP",
-   "detail": "edge_net -0.045 < 0.03",
-   "side": null,
-   "action": "SKIP",
-   "reason": "EDGE_TOO_LOW(-0.045)"
+   "detail": "no market"
   }
  ],
- "market": {
-  "marketTopicId": 7421967,
-  "symbol": "BTCUSDT",
-  "timeframe": "5 min",
-  "status": "REGISTERED",
-  "liveStatus": "LIVE",
-  "liquidity": 14915.83,
-  "feeRateBps": 200,
-  "slippageBps": 1000,
-  "endDate": 1792873500000,
-  "outcomes": [
-   {
-    "name": "Up",
-    "translatedName": null,
-    "price": 0.36,
-    "chance": 0.355,
-    "index": 0,
-    "marketOutcomeId": 42053868,
-    "tokenId": "105317350979891248203399250813642627066913517206886475921477812162047255837042",
-    "winner": null
-   },
-   {
-    "name": "Down",
-    "translatedName": null,
-    "price": 0.64,
-    "chance": 0.645,
-    "index": 1,
-    "marketOutcomeId": 42053869,
-    "tokenId": "84856589569123927074952347520104318956878997341950174439860176966511378596641",
-    "winner": null
-   }
-  ],
-  "best": {
-   "side": "Down",
-   "price": 0.64,
-   "chance": 0.645,
-   "edge_gross": 0.005,
-   "fee": 0.02,
-   "slip": 0.03,
-   "edge_net": -0.045,
-   "tokenId": "84856589569123927074952347520104318956878997341950174439860176966511378596641"
-  },
-  "tte_ms": 216307
- },
+ "market": null,
  "sim_positions": [],
  "live_positions": [],
  "pnl": {
@@ -139,10 +60,15 @@
  },
  "errors": [
   {
-   "where": "plan",
-   "code": "COOLDOWN",
-   "diag": "BTC-5m paused after 5 realized losses >= 3. Hypothesis: adverse regime; pause until losses age out / edge model is reviewed."
+   "where": "baw_status",
+   "code": "UNKNOWN",
+   "diag": "auth"
+  },
+  {
+   "where": "analyze:list",
+   "code": "AUTH_REQUIRED",
+   "diag": "Wallet not logged in. baw session is at ~/.baw/session.json (local disk) \u2014 wiped on sandbox reset. Re-pair via `baw auth signin` (QR scan). baw binary persists in the agent snapshot; the session does not."
   }
  ],
- "summary": "DRY run 9f50ab4ef8 (BTC-5m): 4 phases, exec=0, errors=1, pnl_cum=$1.5454"
+ "summary": "DRY run 46c9b3af26 (BTC-5m): analyze failed \u2014 see errors."
 }
