@@ -1,6 +1,6 @@
 {
- "run_id": "9570528810",
- "ts": "2026-10-24T19:31:45.887320+00:00",
+ "run_id": "1c617f9e5d",
+ "ts": "2026-10-24T19:31:58.081928+00:00",
  "dry_run": true,
  "desk": "BTC-5m",
  "scope_symbol": "BTCUSDT",
@@ -12,13 +12,113 @@
   "min_tte_ms": 60000,
   "cooldown_losses": 3
  },
- "auth": "UNKNOWN",
- "balance": [],
- "phases": [],
- "market": null,
+ "auth": "CONNECTED",
+ "balance": [
+  {
+   "symbol": "BNB",
+   "address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+   "binanceChainId": "56",
+   "balance": "0.000102891103345",
+   "price": "728.811146936688393560005346078931299862",
+   "value": "0.07498818303845078"
+  }
+ ],
+ "phases": [
+  {
+   "name": "Settle",
+   "status": "OK",
+   "detail": "cumulative $0.6525 | 9W/4L | +0 settled",
+   "new_settled": 0,
+   "delta_usd": 0
+  },
+  {
+   "name": "Analisa",
+   "status": "OK",
+   "detail": "topic 7417910 | 2 outcomes | liq $14052",
+   "marketTopicId": 7417910
+  },
+  {
+   "name": "Rencanakan",
+   "status": "COOLDOWN",
+   "detail": "best=Down edge_net=-0.115 | liq $14052 tte 178863ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (4 losses >= 3)",
+   "best": {
+    "side": "Down",
+    "price": 0.74,
+    "chance": 0.745,
+    "edge_gross": 0.005,
+    "fee": 0.02,
+    "slip": 0.1,
+    "edge_net": -0.115,
+    "tokenId": "101433905720606345890681832543960805554444009813797123518502203610556869547440"
+   },
+   "checks": {
+    "edge": false,
+    "liquidity": true,
+    "tte": true,
+    "cooldown": false
+   }
+  },
+  {
+   "name": "Memutuskan+Eksekusi",
+   "status": "SKIP",
+   "detail": "edge_net -0.115 < 0.03",
+   "side": null,
+   "action": "SKIP",
+   "reason": "EDGE_TOO_LOW(-0.115)"
+  }
+ ],
+ "market": {
+  "marketTopicId": 7417910,
+  "symbol": "BTCUSDT",
+  "timeframe": "5 min",
+  "status": "REGISTERED",
+  "liveStatus": "LIVE",
+  "liquidity": 14052.16,
+  "feeRateBps": 200,
+  "slippageBps": 1000,
+  "endDate": 1792870500000,
+  "outcomes": [
+   {
+    "name": "Up",
+    "translatedName": null,
+    "price": 0.26,
+    "chance": 0.255,
+    "index": 0,
+    "marketOutcomeId": 42020096,
+    "tokenId": "51311228335271819856306864609053401714232839939681655425994145686119078823603",
+    "winner": null
+   },
+   {
+    "name": "Down",
+    "translatedName": null,
+    "price": 0.74,
+    "chance": 0.745,
+    "index": 1,
+    "marketOutcomeId": 42020097,
+    "tokenId": "101433905720606345890681832543960805554444009813797123518502203610556869547440",
+    "winner": null
+   }
+  ],
+  "best": {
+   "side": "Down",
+   "price": 0.74,
+   "chance": 0.745,
+   "edge_gross": 0.005,
+   "fee": 0.02,
+   "slip": 0.1,
+   "edge_net": -0.115,
+   "tokenId": "101433905720606345890681832543960805554444009813797123518502203610556869547440"
+  },
+  "tte_ms": 178863
+ },
  "sim_positions": [],
  "live_positions": [],
- "pnl": null,
+ "pnl": {
+  "cumulative_usd": 0.6525,
+  "wins": 9,
+  "losses": 4,
+  "new": []
+ },
  "pnl_dry": {
   "trades": 0,
   "cost": 0.0,
@@ -27,10 +127,10 @@
  },
  "errors": [
   {
-   "where": "baw_status",
-   "code": "UNKNOWN",
-   "diag": "BAW_MISSING"
+   "where": "plan",
+   "code": "COOLDOWN",
+   "diag": "BTC-5m paused after 4 realized losses >= 3. Hypothesis: adverse regime; pause until losses age out / edge model is reviewed."
   }
  ],
- "summary": "baw missing \u2014 UNKNOWN"
+ "summary": "DRY run 1c617f9e5d (BTC-5m): 4 phases, exec=0, errors=1, pnl_cum=$0.6525"
 }
