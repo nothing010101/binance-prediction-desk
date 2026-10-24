@@ -1,6 +1,6 @@
 {
- "run_id": "3a32814c83",
- "ts": "2026-10-24T18:59:42.138148+00:00",
+ "run_id": "ee4437aee5",
+ "ts": "2026-10-24T19:00:20.500427+00:00",
  "dry_run": true,
  "scope": [
   "BTC-5m",
@@ -24,8 +24,8 @@
    "address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
    "binanceChainId": "56",
    "balance": "0.000102891103345",
-   "price": "728.664637084303909726613158440137949884",
-   "value": "0.07497310847808802"
+   "price": "728.271811085017554281447593326125213763",
+   "value": "0.07493269017759886"
   }
  ],
  "desks": [
@@ -34,17 +34,17 @@
    "symbol": "BTCUSDT",
    "timeframe": "5 min",
    "status": "LIVE",
-   "tte_ms": 13481,
-   "liquidity": 15381.26,
+   "tte_ms": 275168,
+   "liquidity": 15855.98,
    "best": {
     "side": "Down",
-    "price": 0.01,
-    "chance": 0.015,
+    "price": 0.63,
+    "chance": 0.635,
     "edge_gross": 0.005,
     "fee": 0.02,
     "slip": 0.1,
     "edge_net": -0.115,
-    "tokenId": "93841501668002590040148534287977045784533433371871706136584418239044486732057"
+    "tokenId": "31815928781549164505306028965026204969485589230261854174001393399675982373364"
    },
    "action": "SKIP",
    "reason": "COOLDOWN_LOSSES"
@@ -54,37 +54,17 @@
    "symbol": "BTCUSDT",
    "timeframe": "15 min",
    "status": "REGISTERED",
-   "tte_ms": 13481,
-   "liquidity": 3723.16,
-   "best": {
-    "side": "Up",
-    "price": 0.99,
-    "chance": 0.99,
-    "edge_gross": 0.0,
-    "fee": 0.02,
-    "slip": 0.1,
-    "edge_net": -0.12,
-    "tokenId": "96820409885593004659187021601078682642008869432730266383074779609579375300428"
-   },
-   "action": "SKIP",
-   "reason": "EDGE_TOO_LOW(-0.12)"
-  },
-  {
-   "desk": "ETH-15m",
-   "symbol": "ETHUSDT",
-   "timeframe": "15 min",
-   "status": "REGISTERED",
-   "tte_ms": 13481,
-   "liquidity": 2776.81,
+   "tte_ms": 875168,
+   "liquidity": 3692.43,
    "best": {
     "side": "Down",
-    "price": 0.04,
-    "chance": 0.045,
+    "price": 0.59,
+    "chance": 0.595,
     "edge_gross": 0.005,
     "fee": 0.02,
     "slip": 0.1,
     "edge_net": -0.115,
-    "tokenId": "62791158061148881122155917073325947719352869123437328492034901055039046738483"
+    "tokenId": "39677808895902464748415580013172372777529129751188263455095680027281343197522"
    },
    "action": "SKIP",
    "reason": "EDGE_TOO_LOW(-0.115)"
@@ -94,17 +74,17 @@
    "symbol": "ETHUSDT",
    "timeframe": "5 min",
    "status": "LIVE",
-   "tte_ms": 13481,
-   "liquidity": 3506.8,
+   "tte_ms": 275168,
+   "liquidity": 3114.74,
    "best": {
     "side": "Down",
-    "price": 0.01,
-    "chance": 0.015,
+    "price": 0.66,
+    "chance": 0.665,
     "edge_gross": 0.005,
     "fee": 0.02,
     "slip": 0.1,
     "edge_net": -0.115,
-    "tokenId": "67434273656590793068200543213518554478641551327415914752463881132647858512900"
+    "tokenId": "76704398372188632399608831204801977993116255002545572019235007223750836485826"
    },
    "action": "SKIP",
    "reason": "EDGE_TOO_LOW(-0.115)"
@@ -114,37 +94,57 @@
    "symbol": "BNBUSDT",
    "timeframe": "15 min",
    "status": "REGISTERED",
-   "tte_ms": 13481,
-   "liquidity": 998.28,
+   "tte_ms": 875168,
+   "liquidity": 3309.77,
    "best": {
-    "side": "Up",
-    "price": 0.99,
-    "chance": 0.99,
-    "edge_gross": 0.0,
+    "side": "Down",
+    "price": 0.59,
+    "chance": 0.595,
+    "edge_gross": 0.005,
     "fee": 0.02,
     "slip": 0.1,
-    "edge_net": -0.12,
-    "tokenId": "89334751592659314402173324362808080568952028974979366722169004534728616374907"
+    "edge_net": -0.115,
+    "tokenId": "94625151534778906502010263639779381558335858972851453486510022252194506466138"
    },
    "action": "SKIP",
-   "reason": "EDGE_TOO_LOW(-0.12)"
+   "reason": "EDGE_TOO_LOW(-0.115)"
+  },
+  {
+   "desk": "ETH-15m",
+   "symbol": "ETHUSDT",
+   "timeframe": "15 min",
+   "status": "REGISTERED",
+   "tte_ms": 875168,
+   "liquidity": 3226.42,
+   "best": {
+    "side": "Down",
+    "price": 0.58,
+    "chance": 0.585,
+    "edge_gross": 0.005,
+    "fee": 0.02,
+    "slip": 0.1,
+    "edge_net": -0.115,
+    "tokenId": "81932296704721506476447322360099728167742446277988099101692330011590371170449"
+   },
+   "action": "SKIP",
+   "reason": "EDGE_TOO_LOW(-0.115)"
   },
   {
    "desk": "BNB-5m",
    "symbol": "BNBUSDT",
    "timeframe": "5 min",
    "status": "LIVE",
-   "tte_ms": 13481,
-   "liquidity": 969.72,
+   "tte_ms": 275168,
+   "liquidity": 3168.81,
    "best": {
     "side": "Down",
-    "price": 0.02,
-    "chance": 0.05,
+    "price": 0.65,
+    "chance": 0.68,
     "edge_gross": 0.03,
     "fee": 0.02,
     "slip": 0.1,
     "edge_net": -0.09,
-    "tokenId": "83557551026742222350902562569437905075508660395031286294659290025558462340934"
+    "tokenId": "83555674719900427877627921593316842127553397679108656501472150140945464975684"
    },
    "action": "SKIP",
    "reason": "EDGE_TOO_LOW(-0.09)"
@@ -213,7 +213,7 @@
   "expected_payout": 0.0,
   "ev": 0.0
  },
- "summary": "DRY run 3a32814c83: 6 desks, 0 simulated, 0+skips, 1 errors.",
+ "summary": "DRY run ee4437aee5: 6 desks, 0 simulated, 0+skips, 1 errors.",
  "loss_history": [
   {
    "desk": "BTC-5m",
