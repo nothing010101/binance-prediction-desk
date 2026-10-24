@@ -61,5 +61,14 @@
   "wins": 10,
   "losses": 4,
   "new_settled": 1
+ },
+ {
+  "ts": "2026-10-24T19:51:28.773975+00:00",
+  "run_id": "56c148bbf4",
+  "cumulative_usd": 1.6934,
+  "delta_usd": 0,
+  "wins": 10,
+  "losses": 4,
+  "new_settled": 0
  }
 ]
