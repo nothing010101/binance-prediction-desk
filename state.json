@@ -1,6 +1,6 @@
 {
- "run_id": "56c148bbf4",
- "ts": "2026-10-24T19:51:26.683495+00:00",
+ "run_id": "4a64a81e42",
+ "ts": "2026-10-24T19:56:31.315493+00:00",
  "dry_run": true,
  "desk": "BTC-5m",
  "scope_symbol": "BTCUSDT",
@@ -22,46 +22,46 @@
    "symbol": "USDT",
    "address": "0x55d398326f99059fF775485246999027B3197955",
    "binanceChainId": "56",
-   "balance": "14.758555402418816431",
-   "price": "0.998632592128288168520163591119121843",
-   "value": "14.738374437586453"
+   "balance": "13.758555402418816432",
+   "price": "0.998622542826787628682262475563843985",
+   "value": "13.739603581586714"
   },
   {
    "symbol": "BNB",
    "address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
    "binanceChainId": "56",
    "balance": "0.000102891103345",
-   "price": "729.108956930799484936240451916872009965",
-   "value": "0.07501882503733205"
+   "price": "729.381555653331775385344148229645848899",
+   "value": "0.07504687302066383"
   }
  ],
  "phases": [
   {
    "name": "Settle",
    "status": "OK",
-   "detail": "cumulative $1.6934 | 10W/4L | +0 settled",
-   "new_settled": 0,
-   "delta_usd": 0
+   "detail": "cumulative $0.6936 | 10W/5L | +1 settled",
+   "new_settled": 1,
+   "delta_usd": -0.9998
   },
   {
    "name": "Analisa",
    "status": "OK",
-   "detail": "topic 7417939 | 2 outcomes | liq $6179",
-   "marketTopicId": 7417939
+   "detail": "topic 7417941 | 2 outcomes | liq $20394",
+   "marketTopicId": 7417941
   },
   {
    "name": "Rencanakan",
    "status": "COOLDOWN",
-   "detail": "best=Down edge_net=-0.045 | liq $6179 tte 210195ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (4 losses >= 3)",
+   "detail": "best=Down edge_net=-0.045 | liq $20394 tte 205408ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (5 losses >= 3)",
    "best": {
     "side": "Down",
-    "price": 0.45,
-    "chance": 0.455,
+    "price": 0.59,
+    "chance": 0.595,
     "edge_gross": 0.005,
     "fee": 0.02,
     "slip": 0.03,
     "edge_net": -0.045,
-    "tokenId": "86957687115113664682862655116324649789435029189847311221337746393718562463800"
+    "tokenId": "115397724324577293026809869123255808056116774032767726903208673883193528976124"
    },
    "checks": {
     "edge": false,
@@ -80,56 +80,67 @@
   }
  ],
  "market": {
-  "marketTopicId": 7417939,
+  "marketTopicId": 7417941,
   "symbol": "BTCUSDT",
   "timeframe": "5 min",
   "status": "REGISTERED",
   "liveStatus": "LIVE",
-  "liquidity": 6178.73,
+  "liquidity": 20394.16,
   "feeRateBps": 200,
   "slippageBps": 1000,
-  "endDate": 1792871700000,
+  "endDate": 1792872000000,
   "outcomes": [
    {
     "name": "Up",
     "translatedName": null,
-    "price": 0.55,
-    "chance": 0.545,
+    "price": 0.41,
+    "chance": 0.405,
     "index": 0,
-    "marketOutcomeId": 42020638,
-    "tokenId": "14502951815671528905733688207146697145948320519790258850338748871375282549073",
+    "marketOutcomeId": 42020792,
+    "tokenId": "65492623078365885786954289038241364435672796362123783125634689527720758762824",
     "winner": null
    },
    {
     "name": "Down",
     "translatedName": null,
-    "price": 0.45,
-    "chance": 0.455,
+    "price": 0.59,
+    "chance": 0.595,
     "index": 1,
-    "marketOutcomeId": 42020639,
-    "tokenId": "86957687115113664682862655116324649789435029189847311221337746393718562463800",
+    "marketOutcomeId": 42020793,
+    "tokenId": "115397724324577293026809869123255808056116774032767726903208673883193528976124",
     "winner": null
    }
   ],
   "best": {
    "side": "Down",
-   "price": 0.45,
-   "chance": 0.455,
+   "price": 0.59,
+   "chance": 0.595,
    "edge_gross": 0.005,
    "fee": 0.02,
    "slip": 0.03,
    "edge_net": -0.045,
-   "tokenId": "86957687115113664682862655116324649789435029189847311221337746393718562463800"
+   "tokenId": "115397724324577293026809869123255808056116774032767726903208673883193528976124"
   },
-  "tte_ms": 210195
+  "tte_ms": 205408
  },
  "sim_positions": [],
  "live_positions": [],
  "pnl": {
-  "cumulative_usd": 1.6934,
+  "cumulative_usd": 0.6936,
   "wins": 10,
-  "losses": 4,
-  "new": []
+  "losses": 5,
+  "new": [
+   {
+    "positionId": 19888625,
+    "desk": "BTC-5m",
+    "outcome": "Down",
+    "shares": 2.13,
+    "cost": 0.9997959288,
+    "realized": -0.999796,
+    "win": false,
+    "title": "Bitcoin Up or Down - October 24, 3:50PM-3:55PM ET"
+   }
+  ]
  },
  "pnl_dry": {
   "trades": 0,
@@ -139,10 +150,15 @@
  },
  "errors": [
   {
+   "where": "settle",
+   "code": "REALIZED_LOSS",
+   "diag": "BTC-5m settled LOSS on Down @ cost 0.9998 (shares 2.13). Hypothesis: adverse 5m move against the side. Net edge filter + cooldown mitigate; review edge model."
+  },
+  {
    "where": "plan",
    "code": "COOLDOWN",
-   "diag": "BTC-5m paused after 4 realized losses >= 3. Hypothesis: adverse regime; pause until losses age out / edge model is reviewed."
+   "diag": "BTC-5m paused after 5 realized losses >= 3. Hypothesis: adverse regime; pause until losses age out / edge model is reviewed."
   }
  ],
- "summary": "DRY run 56c148bbf4 (BTC-5m): 4 phases, exec=0, errors=1, pnl_cum=$1.6934"
+ "summary": "DRY run 4a64a81e42 (BTC-5m): 4 phases, exec=0, errors=2, pnl_cum=$0.6936"
 }
