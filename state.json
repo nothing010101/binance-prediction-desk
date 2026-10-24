@@ -1,6 +1,6 @@
 {
- "run_id": "bdc6a50c40",
- "ts": "2026-10-24T20:16:29.056337+00:00",
+ "run_id": "9f50ab4ef8",
+ "ts": "2026-10-24T20:21:20.420960+00:00",
  "dry_run": true,
  "desk": "BTC-5m",
  "scope_symbol": "BTCUSDT",
@@ -23,16 +23,16 @@
    "address": "0x55d398326f99059fF775485246999027B3197955",
    "binanceChainId": "56",
    "balance": "15.611883989104469689",
-   "price": "0.998630585413284093993797371948987387",
-   "value": "15.590504847443674"
+   "price": "0.998634673037831801726444980896136014",
+   "value": "15.590568662963904"
   },
   {
    "symbol": "BNB",
    "address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
    "binanceChainId": "56",
    "balance": "0.000102891103345",
-   "price": "730.571136961000757992208134180773782455",
-   "value": "0.07516927035392848"
+   "price": "730.899012586715864538819562201653127356",
+   "value": "0.07520300583881824"
   }
  ],
  "phases": [
@@ -46,22 +46,22 @@
   {
    "name": "Analisa",
    "status": "OK",
-   "detail": "topic 7421534 | 2 outcomes | liq $23258",
-   "marketTopicId": 7421534
+   "detail": "topic 7421967 | 2 outcomes | liq $14916",
+   "marketTopicId": 7421967
   },
   {
    "name": "Rencanakan",
    "status": "COOLDOWN",
-   "detail": "best=Down edge_net=-0.045 | liq $23258 tte 207224ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (5 losses >= 3)",
+   "detail": "best=Down edge_net=-0.045 | liq $14916 tte 216307ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (5 losses >= 3)",
    "best": {
     "side": "Down",
-    "price": 0.35,
-    "chance": 0.355,
+    "price": 0.64,
+    "chance": 0.645,
     "edge_gross": 0.005,
     "fee": 0.02,
     "slip": 0.03,
     "edge_net": -0.045,
-    "tokenId": "37486537747046005920394012545641670355284432031596959076579309654718486353680"
+    "tokenId": "84856589569123927074952347520104318956878997341950174439860176966511378596641"
    },
    "checks": {
     "edge": false,
@@ -80,48 +80,48 @@
   }
  ],
  "market": {
-  "marketTopicId": 7421534,
+  "marketTopicId": 7421967,
   "symbol": "BTCUSDT",
   "timeframe": "5 min",
   "status": "REGISTERED",
   "liveStatus": "LIVE",
-  "liquidity": 23257.88,
+  "liquidity": 14915.83,
   "feeRateBps": 200,
   "slippageBps": 1000,
-  "endDate": 1792873200000,
+  "endDate": 1792873500000,
   "outcomes": [
    {
     "name": "Up",
     "translatedName": null,
-    "price": 0.65,
-    "chance": 0.645,
+    "price": 0.36,
+    "chance": 0.355,
     "index": 0,
-    "marketOutcomeId": 42044758,
-    "tokenId": "67472118312468633801465431428352353936678884222385465532144350439805663259874",
+    "marketOutcomeId": 42053868,
+    "tokenId": "105317350979891248203399250813642627066913517206886475921477812162047255837042",
     "winner": null
    },
    {
     "name": "Down",
     "translatedName": null,
-    "price": 0.35,
-    "chance": 0.355,
+    "price": 0.64,
+    "chance": 0.645,
     "index": 1,
-    "marketOutcomeId": 42044759,
-    "tokenId": "37486537747046005920394012545641670355284432031596959076579309654718486353680",
+    "marketOutcomeId": 42053869,
+    "tokenId": "84856589569123927074952347520104318956878997341950174439860176966511378596641",
     "winner": null
    }
   ],
   "best": {
    "side": "Down",
-   "price": 0.35,
-   "chance": 0.355,
+   "price": 0.64,
+   "chance": 0.645,
    "edge_gross": 0.005,
    "fee": 0.02,
    "slip": 0.03,
    "edge_net": -0.045,
-   "tokenId": "37486537747046005920394012545641670355284432031596959076579309654718486353680"
+   "tokenId": "84856589569123927074952347520104318956878997341950174439860176966511378596641"
   },
-  "tte_ms": 207224
+  "tte_ms": 216307
  },
  "sim_positions": [],
  "live_positions": [],
@@ -144,5 +144,5 @@
    "diag": "BTC-5m paused after 5 realized losses >= 3. Hypothesis: adverse regime; pause until losses age out / edge model is reviewed."
   }
  ],
- "summary": "DRY run bdc6a50c40 (BTC-5m): 4 phases, exec=0, errors=1, pnl_cum=$1.5454"
+ "summary": "DRY run 9f50ab4ef8 (BTC-5m): 4 phases, exec=0, errors=1, pnl_cum=$1.5454"
 }
