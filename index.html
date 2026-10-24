@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prediction Desk — Monitor</title>
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#121726; --panel2:#0e1320; --line:#1f2740;
+    --txt:#e7ecf5; --mut:#8a93a8; --green:#34d399; --red:#fb7185; --amber:#fbbf24;
+    --blue:#60a5fa; --violet:#a78bfa; --cyan:#22d3ee;
+    --coin:#f7c948;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif;-webkit-font-smoothing:antialiased}
+  header{display:flex;align-items:center;gap:14px;padding:16px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(11,14,20,.86);backdrop-filter:blur(8px);z-index:5}
+  header h1{font-size:16px;margin:0;letter-spacing:.2px;font-weight:650}
+  header .sub{color:var(--mut);font-size:12px}
+  .spacer{flex:1}
+  .badge{font-size:11px;padding:4px 9px;border-radius:999px;font-weight:600;border:1px solid var(--line);background:#0b0e14}
+  .badge.live{color:var(--green);border-color:rgba(52,211,153,.4)}
+  .badge.dry{color:var(--amber);border-color:rgba(251,191,36,.4)}
+  .badge.bad{color:var(--red);border-color:rgba(251,113,133,.4)}
+  .pulse{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.6)}70%{box-shadow:0 0 0 10px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+  .pulse.amber{background:var(--amber);animation:pulseA 1.6s infinite}
+  @keyframes pulseA{0%{box-shadow:0 0 0 0 rgba(251,191,36,.6)}70%{box-shadow:0 0 0 10px rgba(251,191,36,0)}100%{box-shadow:0 0 0 0 rgba(251,191,36,0)}}
+  main{max-width:1180px;margin:0 auto;padding:20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;position:relative;overflow:hidden}
+  .card .hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .coin{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:13px;color:#111;background:var(--coin)}
+  .coin.btc{background:linear-gradient(135deg,#f7931a,#ffb648)} .coin.eth{background:linear-gradient(135deg,#9aa2b8,#c7ccda)} .coin.bnb{background:linear-gradient(135deg,#f3ba2f,#ffd866)}
+  .desk-name{font-weight:650;font-size:15px}
+  .desk-tf{color:var(--mut);font-size:11px}
+  .act{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;margin-top:4px}
+  .act.skip{background:rgba(138,147,168,.16);color:var(--mut)}
+  .act.sim{background:rgba(52,211,153,.16);color:var(--green)}
+  .act.cool{background:rgba(251,113,133,.16);color:var(--red)}
+  .act.trade{background:rgba(96,165,250,.16);color:var(--blue)}
+  .row{display:flex;justify-content:space-between;font-size:12px;margin-top:5px}
+  .row .k{color:var(--mut)} .row .v{font-variant-numeric:tabular-nums}
+  .edge.neg{color:var(--red)} .edge.pos{color:var(--green)}
+  .side-up{color:var(--green)} .side-down{color:var(--red)}
+  .panels{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+  @media(max-width:760px){.panels{grid-template-columns:1fr}}
+  .panel{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px 15px}
+  .panel h3{margin:0 0 10px;font-size:13px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+  .kpi{display:flex;gap:18px;flex-wrap:wrap}
+  .kpi div{font-variant-numeric:tabular-nums}
+  .kpi .k{color:var(--mut);font-size:11px}
+  .err{border-left:3px solid var(--red);padding:8px 10px;background:rgba(251,113,133,.06);border-radius:6px;margin-bottom:8px;font-size:12px}
+  .err .code{font-weight:700;color:var(--red)} .err .where{color:var(--mut)} .err .diag{color:var(--txt);margin-top:3px}
+  .lossrow{padding:8px 0;border-bottom:1px dashed var(--line);font-size:12px}
+  .lossrow .h{color:var(--amber)}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  td,th{padding:6px 8px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-weight:600;font-size:11px}
+  .muted{color:var(--mut)}
+  .ticker{font-size:11px;color:var(--mut)}
+  .ok{color:var(--green)} .warn{color:var(--amber)}
+  .bar{height:7px;border-radius:4px;background:#1a2138;overflow:hidden;display:flex}
+  .bar .w{background:var(--green)} .bar .l{background:var(--red)}
+</style>
+</head>
+<body>
+<header>
+  <div class="pulse" id="hb"></div>
+  <h1>Prediction Desk <span class="sub">Binance Web3 · Up/Down · BTC/ETH/BNB · 5m & 15m</span></h1>
+  <div class="spacer"></div>
+  <div id="mode" class="badge dry">…</div>
+  <div id="auth" class="badge">auth …</div>
+  <div id="upd" class="ticker">—</div>
+</header>
+<main>
+  <div class="grid" id="desks"></div>
+
+  <div class="panels">
+    <div class="panel">
+      <h3>Ringkasan dry-run</h3>
+      <div class="kpi" id="kpi"></div>
+      <h3 style="margin-top:16px">Simulasi posisi aktif</h3>
+      <div id="sims" class="muted">tidak ada</div>
+    </div>
+    <div class="panel">
+      <h3>Analisis rugi &amp; cooldown</h3>
+      <div id="loss"></div>
+    </div>
+  </div>
+
+  <div class="panels" style="margin-top:12px">
+    <div class="panel">
+      <h3>Diagnosis kesalahan / peringatan</h3>
+      <div id="errs" class="muted">tidak ada</div>
+    </div>
+    <div class="panel">
+      <h3>Riwayat settled (in-scope)</h3>
+      <div id="hist"><table id="histTbl"><thead><tr><th>desk</th><th>side</th><th>avg</th><th>shares</th><th>result</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </div>
+
+  <div class="ticker" style="text-align:center;margin-top:14px">
+    Memantau <span id="repo">…</span> · refresh tiap 15 dtk · <span id="lastId">—</span>
+  </div>
+</main>
+
+<script>
+const RAW = "https://raw.githubusercontent.com/nothing010101/binance-prediction-desk/main";
+const DESK_ORDER = ["BTC-5m","BTC-15m","ETH-5m","ETH-15m","BNB-5m","BNB-15m"];
+const COIN = d => d.split("-")[0].toLowerCase();
+function fmt(n,d=4){ if(n==null||n===undefined) return "–"; return Number(n).toFixed(d); }
+function tteFmt(ms){ if(ms==null) return "–"; if(ms<=0) return "selesai"; const s=Math.round(ms/1000); return Math.floor(s/60)+"m "+(s%60).toString().padStart(2,"0")+"s"; }
+
+function render(s){
+  document.getElementById("repo").textContent = "nothing010101/binance-prediction-desk";
+  document.getElementById("mode").textContent = s.dry_run ? "DRY" : "LIVE";
+  document.getElementById("mode").className = "badge " + (s.dry_run ? "dry" : "live");
+  document.getElementById("auth").textContent = "auth: " + (s.auth||"?");
+  document.getElementById("auth").className = "badge " + (s.auth==="CONNECTED"||s.auth==="LOGGED_IN" ? "live" : "bad");
+  document.getElementById("upd").textContent = "update: " + (s.ts||"—").slice(11,19) + "Z";
+  document.getElementById("lastId").textContent = "run " + (s.run_id||"—");
+
+  // desks
+  const desks = (s.desks||[]).slice().sort((a,b)=>DESK_ORDER.indexOf(a.desk)-DESK_ORDER.indexOf(b.desk));
+  document.getElementById("desks").innerHTML = desks.map(d=>{
+    const act = d.action||"SKIP";
+    const cls = act.startsWith("SIM")?"sim":act==="COOLDOWN"?"cool":act==="SKIP"?"skip":act.startsWith("WOULD")?"trade":"skip";
+    const b = d.best||{};
+    const edgeCls = (b.edge_net||0)>=0?"pos":"neg";
+    const hb = act.startsWith("SIM")?'<div class="pulse"></div>':act==="COOLDOWN"?'<div class="pulse amber"></div>':'';
+    return `<div class="card">
+      ${hb}
+      <div class="hd"><div class="coin ${COIN(d.desk)}">${d.symbol?d.symbol.replace("USDT",""):"?"}</div>
+        <div><div class="desk-name">${d.desk}</div><div class="desk-tf">${d.timeframe||""} · ${d.status||""}</div></div></div>
+      <div class="act ${cls}">${act.replace("_"," ")}</div>
+      <div style="color:var(--mut);font-size:11px;margin:6px 0">${d.reason||""}</div>
+      <div class="row"><span class="k">side</span><span class="v ${b.side==="Up"?"side-up":"side-down"}">${b.side||"—"}</span></div>
+      <div class="row"><span class="k">price / chance</span><span class="v">${fmt(b.price,3)} / ${fmt(b.chance,3)}</span></div>
+      <div class="row"><span class="k">edge (net)</span><span class="v edge ${edgeCls}">${fmt(b.edge_net,4)}</span></div>
+      <div class="row"><span class="k">likuiditas</span><span class="v">$${Math.round(d.liquidity||0).toLocaleString()}</span></div>
+      <div class="row"><span class="k">menuju settle</span><span class="v">${tteFmt(d.tte_ms)}</span></div>
+    </div>`;
+  }).join("");
+
+  // kpi
+  const p = s.pnl_dry||{};
+  document.getElementById("kpi").innerHTML = `
+    <div><div class="k">mode</div><div>${s.dry_run?"dry":"LIVE"}</div></div>
+    <div><div class="k">sim trades</div><div>${p.trades||0}</div></div>
+    <div><div class="k">biaya sim</div><div>$${fmt(p.cost,2)}</div></div>
+    <div><div class="k">EV</div><div class="${(p.ev||0)>=0?'ok':'warn'}">$${fmt(p.ev,3)}</div></div>
+    <div><div class="k">errors</div><div>${(s.errors||[]).length}</div></div>`;
+  // sims
+  const sims = s.sim_positions||[];
+  document.getElementById("sims").innerHTML = sims.length ? "<table><thead><tr><th>desk</th><th>side</th><th>price</th><th>shares</th><th>EV</th></tr></thead><tbody>"+
+    sims.map(x=>`<tr><td>${x.desk}</td><td>${x.side}</td><td>${fmt(x.price,3)}</td><td>${fmt(x.shares,2)}</td><td>${fmt(x.ev,3)}</td></tr>`).join("")+"</tbody></table>"
+    : "tidak ada posisi simulasi (semua desk SKIP — tidak ada edge setelah fee)";
+
+  // errors
+  const errs = s.errors||[];
+  document.getElementById("errs").innerHTML = errs.length ? errs.map(e=>`<div class="err"><span class="code">${e.code||"?"}</span> <span class="where">@${e.where||"?"}</span><div class="diag">${e.diag||""}</div></div>`).join("") :
+    `<span class="ok">tidak ada kesalahan aktif</span>`;
+
+  // losses
+  const losses = s.losses||{};
+  document.getElementById("loss").innerHTML = Object.keys(losses).length ? Object.entries(losses).map(([k,v])=>{
+    const w=v.wins||0,l=v.losses||0,t=w+l; const wp=t?Math.round(w/t*100):0;
+    return `<div class="lossrow"><div><b>${k}</b> — ${w}W / ${l}L (${wp}% hit)</div>
+      <div class="bar"><div class="w" style="width:${wp}%"></div><div class="l" style="width:${100-wp}%"></div></div>
+      ${(v.recent_losses||[]).slice(-2).map(r=>`<div class="h" style="margin-top:5px">• ${r.title}</div><div style="color:var(--mut)">${r.hypothesis}</div>`).join("")}
+    </div>`;
+  }).join("") : `<span class="muted">tidak ada data rugi (belum ada posisi settled dalam scope)</span>`;
+
+  // history
+  const hist = (s.loss_history||[]).slice(-12).reverse();
+  document.querySelector("#histTbl tbody").innerHTML = hist.map(h=>`<tr><td>${h.desk||"?"}</td><td>${h.outcome||"?"}</td><td>${fmt(h.avgPrice,3)}</td><td>${fmt(h.shares,2)}</td><td style="color:${h.result==='WIN'?'var(--green)':'var(--red)'}">${h.result||"?"}</td></tr>`).join("")||`<tr><td colspan=5 class="muted">—</td></tr>`;
+}
+
+async function tick(){
+  try{
+    const r = await fetch(RAW+"/state.json?ts="+Date.now());
+    if(!r.ok) throw new Error("state.json belum tersedia ("+r.status+")");
+    const s = await r.json();
+    render(s);
+    document.getElementById("hb").style.background="var(--green)";
+  }catch(e){
+    document.getElementById("hb").style.background="var(--red)";
+    document.getElementById("upd").textContent="gagal ambil: "+e.message;
+  }
+}
+tick();
+setInterval(tick, 15000);
+</script>
+</body>
+</html>
