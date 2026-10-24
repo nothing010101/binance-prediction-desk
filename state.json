@@ -1,6 +1,6 @@
 {
- "run_id": "8157d90752",
- "ts": "2026-10-24T19:36:28.494821+00:00",
+ "run_id": "8d92ab4ccd",
+ "ts": "2026-10-24T19:41:27.382470+00:00",
  "dry_run": true,
  "desk": "BTC-5m",
  "scope_symbol": "BTCUSDT",
@@ -19,16 +19,16 @@
    "address": "0x55d398326f99059fF775485246999027B3197955",
    "binanceChainId": "56",
    "balance": "13.716888735752149764",
-   "price": "0.99871096630623431223015004815092372",
-   "value": "13.699207203998132"
+   "price": "0.99867582382670032767806851687799976",
+   "value": "13.698725158516464"
   },
   {
    "symbol": "BNB",
    "address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
    "binanceChainId": "56",
    "balance": "0.000102891103345",
-   "price": "729.41021088390921564146290646089163404",
-   "value": "0.07504982138895455"
+   "price": "729.713058601750293020995411049391447886",
+   "value": "0.07508098172478873"
   }
  ],
  "phases": [
@@ -42,22 +42,22 @@
   {
    "name": "Analisa",
    "status": "OK",
-   "detail": "topic 7417912 | 2 outcomes | liq $23559",
-   "marketTopicId": 7417912
+   "detail": "topic 7417917 | 2 outcomes | liq $24622",
+   "marketTopicId": 7417917
   },
   {
    "name": "Rencanakan",
    "status": "COOLDOWN",
-   "detail": "best=Down edge_net=-0.115 | liq $23559 tte 208647ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (4 losses >= 3)",
+   "detail": "best=Down edge_net=-0.115 | liq $24622 tte 209842ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (4 losses >= 3)",
    "best": {
     "side": "Down",
-    "price": 0.67,
-    "chance": 0.675,
+    "price": 0.49,
+    "chance": 0.495,
     "edge_gross": 0.005,
     "fee": 0.02,
     "slip": 0.1,
     "edge_net": -0.115,
-    "tokenId": "74389024168136972052085952463813039417170504058691075025339109475968379244582"
+    "tokenId": "97142143657886809689030764892632240504274365621177267612594333148870741699607"
    },
    "checks": {
     "edge": false,
@@ -76,48 +76,48 @@
   }
  ],
  "market": {
-  "marketTopicId": 7417912,
+  "marketTopicId": 7417917,
   "symbol": "BTCUSDT",
   "timeframe": "5 min",
   "status": "REGISTERED",
   "liveStatus": "LIVE",
-  "liquidity": 23559.42,
+  "liquidity": 24621.97,
   "feeRateBps": 200,
   "slippageBps": 1000,
-  "endDate": 1792870800000,
+  "endDate": 1792871100000,
   "outcomes": [
    {
     "name": "Up",
     "translatedName": null,
-    "price": 0.33,
-    "chance": 0.325,
+    "price": 0.51,
+    "chance": 0.505,
     "index": 0,
-    "marketOutcomeId": 42020270,
-    "tokenId": "2632950360204271248256983004965562474288801678344483324330924741228226734172",
+    "marketOutcomeId": 42020332,
+    "tokenId": "73763768613201857719566086464806431803387493041579873150002265991211028232420",
     "winner": null
    },
    {
     "name": "Down",
     "translatedName": null,
-    "price": 0.67,
-    "chance": 0.675,
+    "price": 0.49,
+    "chance": 0.495,
     "index": 1,
-    "marketOutcomeId": 42020271,
-    "tokenId": "74389024168136972052085952463813039417170504058691075025339109475968379244582",
+    "marketOutcomeId": 42020333,
+    "tokenId": "97142143657886809689030764892632240504274365621177267612594333148870741699607",
     "winner": null
    }
   ],
   "best": {
    "side": "Down",
-   "price": 0.67,
-   "chance": 0.675,
+   "price": 0.49,
+   "chance": 0.495,
    "edge_gross": 0.005,
    "fee": 0.02,
    "slip": 0.1,
    "edge_net": -0.115,
-   "tokenId": "74389024168136972052085952463813039417170504058691075025339109475968379244582"
+   "tokenId": "97142143657886809689030764892632240504274365621177267612594333148870741699607"
   },
-  "tte_ms": 208647
+  "tte_ms": 209842
  },
  "sim_positions": [],
  "live_positions": [],
@@ -140,5 +140,5 @@
    "diag": "BTC-5m paused after 4 realized losses >= 3. Hypothesis: adverse regime; pause until losses age out / edge model is reviewed."
   }
  ],
- "summary": "DRY run 8157d90752 (BTC-5m): 4 phases, exec=0, errors=1, pnl_cum=$0.6525"
+ "summary": "DRY run 8d92ab4ccd (BTC-5m): 4 phases, exec=0, errors=1, pnl_cum=$0.6525"
 }
