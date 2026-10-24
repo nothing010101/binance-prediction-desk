@@ -1,15 +1,10 @@
 {
- "run_id": "ee4437aee5",
- "ts": "2026-10-24T19:00:20.500427+00:00",
+ "run_id": "0d46f92d65",
+ "ts": "2026-10-24T19:15:42.347446+00:00",
  "dry_run": true,
- "scope": [
-  "BTC-5m",
-  "BTC-15m",
-  "ETH-5m",
-  "ETH-15m",
-  "BNB-5m",
-  "BNB-15m"
- ],
+ "desk": "BTC-5m",
+ "scope_symbol": "BTCUSDT",
+ "scope_timeframe": "5 min",
  "config": {
   "bet_amount": 1.0,
   "edge_threshold": 0.03,
@@ -24,300 +19,269 @@
    "address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
    "binanceChainId": "56",
    "balance": "0.000102891103345",
-   "price": "728.271811085017554281447593326125213763",
-   "value": "0.07493269017759886"
+   "price": "728.651366741296417239547620355389499077",
+   "value": "0.07497174307785423"
   }
  ],
- "desks": [
+ "phases": [
   {
-   "desk": "BTC-5m",
-   "symbol": "BTCUSDT",
-   "timeframe": "5 min",
-   "status": "LIVE",
-   "tte_ms": 275168,
-   "liquidity": 15855.98,
-   "best": {
-    "side": "Down",
-    "price": 0.63,
-    "chance": 0.635,
-    "edge_gross": 0.005,
-    "fee": 0.02,
-    "slip": 0.1,
-    "edge_net": -0.115,
-    "tokenId": "31815928781549164505306028965026204969485589230261854174001393399675982373364"
-   },
-   "action": "SKIP",
-   "reason": "COOLDOWN_LOSSES"
+   "name": "Settle",
+   "status": "OK",
+   "detail": "cumulative $0.6525 | 9W/4L | +13 settled",
+   "new_settled": 13,
+   "delta_usd": 0.6525
   },
   {
-   "desk": "BTC-15m",
-   "symbol": "BTCUSDT",
-   "timeframe": "15 min",
-   "status": "REGISTERED",
-   "tte_ms": 875168,
-   "liquidity": 3692.43,
+   "name": "Analisa",
+   "status": "OK",
+   "detail": "topic 7417868 | 2 outcomes | liq $22428",
+   "marketTopicId": 7417868
+  },
+  {
+   "name": "Rencanakan",
+   "status": "COOLDOWN",
+   "detail": "best=Down edge_net=-0.115 | liq $22428 tte 254736ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (4 losses >= 3)",
    "best": {
     "side": "Down",
-    "price": 0.59,
-    "chance": 0.595,
+    "price": 0.47,
+    "chance": 0.475,
     "edge_gross": 0.005,
     "fee": 0.02,
     "slip": 0.1,
     "edge_net": -0.115,
-    "tokenId": "39677808895902464748415580013172372777529129751188263455095680027281343197522"
+    "tokenId": "44091339280158761202307998713023872178613252206825879813582258674278583076207"
    },
+   "checks": {
+    "edge": false,
+    "liquidity": true,
+    "tte": true,
+    "cooldown": false
+   }
+  },
+  {
+   "name": "Memutuskan+Eksekusi",
+   "status": "SKIP",
+   "detail": "edge_net -0.115 < 0.03",
+   "side": null,
    "action": "SKIP",
    "reason": "EDGE_TOO_LOW(-0.115)"
-  },
-  {
-   "desk": "ETH-5m",
-   "symbol": "ETHUSDT",
-   "timeframe": "5 min",
-   "status": "LIVE",
-   "tte_ms": 275168,
-   "liquidity": 3114.74,
-   "best": {
-    "side": "Down",
-    "price": 0.66,
-    "chance": 0.665,
-    "edge_gross": 0.005,
-    "fee": 0.02,
-    "slip": 0.1,
-    "edge_net": -0.115,
-    "tokenId": "76704398372188632399608831204801977993116255002545572019235007223750836485826"
-   },
-   "action": "SKIP",
-   "reason": "EDGE_TOO_LOW(-0.115)"
-  },
-  {
-   "desk": "BNB-15m",
-   "symbol": "BNBUSDT",
-   "timeframe": "15 min",
-   "status": "REGISTERED",
-   "tte_ms": 875168,
-   "liquidity": 3309.77,
-   "best": {
-    "side": "Down",
-    "price": 0.59,
-    "chance": 0.595,
-    "edge_gross": 0.005,
-    "fee": 0.02,
-    "slip": 0.1,
-    "edge_net": -0.115,
-    "tokenId": "94625151534778906502010263639779381558335858972851453486510022252194506466138"
-   },
-   "action": "SKIP",
-   "reason": "EDGE_TOO_LOW(-0.115)"
-  },
-  {
-   "desk": "ETH-15m",
-   "symbol": "ETHUSDT",
-   "timeframe": "15 min",
-   "status": "REGISTERED",
-   "tte_ms": 875168,
-   "liquidity": 3226.42,
-   "best": {
-    "side": "Down",
-    "price": 0.58,
-    "chance": 0.585,
-    "edge_gross": 0.005,
-    "fee": 0.02,
-    "slip": 0.1,
-    "edge_net": -0.115,
-    "tokenId": "81932296704721506476447322360099728167742446277988099101692330011590371170449"
-   },
-   "action": "SKIP",
-   "reason": "EDGE_TOO_LOW(-0.115)"
-  },
-  {
-   "desk": "BNB-5m",
-   "symbol": "BNBUSDT",
-   "timeframe": "5 min",
-   "status": "LIVE",
-   "tte_ms": 275168,
-   "liquidity": 3168.81,
-   "best": {
-    "side": "Down",
-    "price": 0.65,
-    "chance": 0.68,
-    "edge_gross": 0.03,
-    "fee": 0.02,
-    "slip": 0.1,
-    "edge_net": -0.09,
-    "tokenId": "83555674719900427877627921593316842127553397679108656501472150140945464975684"
-   },
-   "action": "SKIP",
-   "reason": "EDGE_TOO_LOW(-0.09)"
   }
  ],
- "sim_positions": [],
- "losses": {
-  "BTC-5m": {
-   "wins": 9,
-   "losses": 4,
-   "recent_losses": [
-    {
-     "desk": "BTC-5m",
-     "outcome": "Down",
-     "avgPrice": 0.05102041,
-     "shares": 39.2,
-     "cost": 2.000000072,
-     "result": "LOSS",
-     "title": "Bitcoin Up or Down - October 23, 1:40AM-1:45AM ET",
-     "hypothesis": "Bought Down @ 0.05102041 but settled LOSS; move went against the side. Tighten edge threshold / cooldown this desk."
-    },
-    {
-     "desk": "BTC-5m",
-     "outcome": "Up",
-     "avgPrice": 0.07142857,
-     "shares": 28,
-     "cost": 1.99999996,
-     "result": "LOSS",
-     "title": "Bitcoin Up or Down - October 23, 12:25AM-12:30AM ET",
-     "hypothesis": "Bought Up @ 0.07142857 but settled LOSS; move went against the side. Tighten edge threshold / cooldown this desk."
-    },
-    {
-     "desk": "BTC-5m",
-     "outcome": "Up",
-     "avgPrice": 0.8040201,
-     "shares": 2.48,
-     "cost": 1.993969848,
-     "result": "LOSS",
-     "title": "Bitcoin Up or Down - October 22, 10:35PM-10:40PM ET",
-     "hypothesis": "Bought Up @ 0.8040201 but settled LOSS; move went against the side. Tighten edge threshold / cooldown this desk."
-    },
-    {
-     "desk": "BTC-5m",
-     "outcome": "Down",
-     "avgPrice": 0.31632653,
-     "shares": 7.73,
-     "cost": 2.4452040769,
-     "result": "LOSS",
-     "title": "Bitcoin Up or Down - October 22, 9:10PM-9:15PM ET",
-     "hypothesis": "Bought Down @ 0.31632653 but settled LOSS; move went against the side. Tighten edge threshold / cooldown this desk."
-    }
-   ]
-  }
+ "market": {
+  "marketTopicId": 7417868,
+  "symbol": "BTCUSDT",
+  "timeframe": "5 min",
+  "status": "REGISTERED",
+  "liveStatus": "LIVE",
+  "liquidity": 22428.1,
+  "feeRateBps": 200,
+  "slippageBps": 1000,
+  "endDate": 1792869600000,
+  "outcomes": [
+   {
+    "name": "Up",
+    "translatedName": null,
+    "price": 0.53,
+    "chance": 0.525,
+    "index": 0,
+    "marketOutcomeId": 42019078,
+    "tokenId": "34319296616702262723819825292504028871554083310544846477216479446613792141513",
+    "winner": null
+   },
+   {
+    "name": "Down",
+    "translatedName": null,
+    "price": 0.47,
+    "chance": 0.475,
+    "index": 1,
+    "marketOutcomeId": 42019079,
+    "tokenId": "44091339280158761202307998713023872178613252206825879813582258674278583076207",
+    "winner": null
+   }
+  ],
+  "best": {
+   "side": "Down",
+   "price": 0.47,
+   "chance": 0.475,
+   "edge_gross": 0.005,
+   "fee": 0.02,
+   "slip": 0.1,
+   "edge_net": -0.115,
+   "tokenId": "44091339280158761202307998713023872178613252206825879813582258674278583076207"
+  },
+  "tte_ms": 254736
  },
- "errors": [
-  {
-   "where": "cooldown",
-   "code": "COOLDOWN",
-   "diag": "Desks paused after >= 3 recent losses: ['BTC-5m']. Hypothesis: adverse regime for those symbol/interval pairs; pause until losses age out."
-  }
- ],
- "skips": [],
+ "sim_positions": [],
+ "live_positions": [],
+ "pnl": {
+  "cumulative_usd": 0.6525,
+  "wins": 9,
+  "losses": 4,
+  "new": [
+   {
+    "positionId": 19545013,
+    "desk": "BTC-5m",
+    "outcome": "Up",
+    "shares": 5.43,
+    "cost": 3.9934405032,
+    "realized": 1.436559,
+    "win": true,
+    "title": "Bitcoin Up or Down - October 23, 4:30AM-4:35AM ET"
+   },
+   {
+    "positionId": 19522673,
+    "desk": "BTC-5m",
+    "outcome": "Down",
+    "shares": 39.2,
+    "cost": 2.000000072,
+    "realized": -2.0,
+    "win": false,
+    "title": "Bitcoin Up or Down - October 23, 1:40AM-1:45AM ET"
+   },
+   {
+    "positionId": 19513161,
+    "desk": "BTC-5m",
+    "outcome": "Up",
+    "shares": 28.0,
+    "cost": 1.99999996,
+    "realized": -2.0,
+    "win": false,
+    "title": "Bitcoin Up or Down - October 23, 12:25AM-12:30AM ET"
+   },
+   {
+    "positionId": 19498814,
+    "desk": "BTC-5m",
+    "outcome": "Up",
+    "shares": 2.48,
+    "cost": 1.993969848,
+    "realized": -1.99397,
+    "win": false,
+    "title": "Bitcoin Up or Down - October 22, 10:35PM-10:40PM ET"
+   },
+   {
+    "positionId": 19493559,
+    "desk": "BTC-5m",
+    "outcome": "Down",
+    "shares": 2.51,
+    "cost": 1.9934983495,
+    "realized": 0.516502,
+    "win": true,
+    "title": "Bitcoin Up or Down - October 22, 10PM-10:05PM ET"
+   },
+   {
+    "positionId": 19492873,
+    "desk": "BTC-5m",
+    "outcome": "Down",
+    "shares": 2.58,
+    "cost": 1.998539337,
+    "realized": 0.581461,
+    "win": true,
+    "title": "Bitcoin Up or Down - October 22, 9:50PM-9:55PM ET"
+   },
+   {
+    "positionId": 19491907,
+    "desk": "BTC-5m",
+    "outcome": "Up",
+    "shares": 2.14,
+    "cost": 1.9932005154,
+    "realized": 0.146799,
+    "win": true,
+    "title": "Bitcoin Up or Down - October 22, 9:45PM-9:50PM ET"
+   },
+   {
+    "positionId": 19491039,
+    "desk": "BTC-5m",
+    "outcome": "Down",
+    "shares": 2.34,
+    "cost": 1.9501887132,
+    "realized": 0.389811,
+    "win": true,
+    "title": "Bitcoin Up or Down - October 22, 9:35PM-9:40PM ET"
+   },
+   {
+    "positionId": 19489570,
+    "desk": "BTC-5m",
+    "outcome": "Up",
+    "shares": 5.16,
+    "cost": 2.7841798068,
+    "realized": 2.37582,
+    "win": true,
+    "title": "Bitcoin Up or Down - October 22, 9:20PM-9:25PM ET"
+   },
+   {
+    "positionId": 19488393,
+    "desk": "BTC-5m",
+    "outcome": "Down",
+    "shares": 7.73,
+    "cost": 2.4452040769,
+    "realized": -2.445204,
+    "win": false,
+    "title": "Bitcoin Up or Down - October 22, 9:10PM-9:15PM ET"
+   },
+   {
+    "positionId": 19485426,
+    "desk": "BTC-5m",
+    "outcome": "Up",
+    "shares": 4.63,
+    "cost": 2.9969152896,
+    "realized": 1.633085,
+    "win": true,
+    "title": "Bitcoin Up or Down - October 22, 8:40PM-8:45PM ET"
+   },
+   {
+    "positionId": 19484895,
+    "desk": "BTC-5m",
+    "outcome": "Down",
+    "shares": 4.49,
+    "cost": 2.9942498471,
+    "realized": 1.49575,
+    "win": true,
+    "title": "Bitcoin Up or Down - October 22, 8:35PM-8:40PM ET"
+   },
+   {
+    "positionId": 19484395,
+    "desk": "BTC-5m",
+    "outcome": "Up",
+    "shares": 3.51,
+    "cost": 2.9940673113,
+    "realized": 0.515933,
+    "win": true,
+    "title": "Bitcoin Up or Down - October 22, 8:30PM-8:35PM ET"
+   }
+  ]
+ },
  "pnl_dry": {
   "trades": 0,
   "cost": 0.0,
   "expected_payout": 0.0,
   "ev": 0.0
  },
- "summary": "DRY run ee4437aee5: 6 desks, 0 simulated, 0+skips, 1 errors.",
- "loss_history": [
+ "errors": [
   {
-   "desk": "BTC-5m",
-   "outcome": "Up",
-   "result": "WIN",
-   "avgPrice": 0.73544024,
-   "cost": 3.9934405032,
-   "shares": 5.43
+   "where": "settle",
+   "code": "REALIZED_LOSS",
+   "diag": "BTC-5m settled LOSS on Down @ cost 2.0000 (shares 39.2). Hypothesis: adverse 5m move against the side. Net edge filter + cooldown mitigate; review edge model."
   },
   {
-   "desk": "BTC-5m",
-   "outcome": "Down",
-   "result": "LOSS",
-   "avgPrice": 0.05102041,
-   "cost": 2.000000072,
-   "shares": 39.2
+   "where": "settle",
+   "code": "REALIZED_LOSS",
+   "diag": "BTC-5m settled LOSS on Up @ cost 2.0000 (shares 28.0). Hypothesis: adverse 5m move against the side. Net edge filter + cooldown mitigate; review edge model."
   },
   {
-   "desk": "BTC-5m",
-   "outcome": "Up",
-   "result": "LOSS",
-   "avgPrice": 0.07142857,
-   "cost": 1.99999996,
-   "shares": 28
+   "where": "settle",
+   "code": "REALIZED_LOSS",
+   "diag": "BTC-5m settled LOSS on Up @ cost 1.9940 (shares 2.48). Hypothesis: adverse 5m move against the side. Net edge filter + cooldown mitigate; review edge model."
   },
   {
-   "desk": "BTC-5m",
-   "outcome": "Up",
-   "result": "LOSS",
-   "avgPrice": 0.8040201,
-   "cost": 1.993969848,
-   "shares": 2.48
+   "where": "settle",
+   "code": "REALIZED_LOSS",
+   "diag": "BTC-5m settled LOSS on Down @ cost 2.4452 (shares 7.73). Hypothesis: adverse 5m move against the side. Net edge filter + cooldown mitigate; review edge model."
   },
   {
-   "desk": "BTC-5m",
-   "outcome": "Down",
-   "result": "WIN",
-   "avgPrice": 0.79422245,
-   "cost": 1.9934983495,
-   "shares": 2.51
-  },
-  {
-   "desk": "BTC-5m",
-   "outcome": "Down",
-   "result": "WIN",
-   "avgPrice": 0.77462765,
-   "cost": 1.998539337,
-   "shares": 2.58
-  },
-  {
-   "desk": "BTC-5m",
-   "outcome": "Up",
-   "result": "WIN",
-   "avgPrice": 0.93140211,
-   "cost": 1.9932005154,
-   "shares": 2.14
-  },
-  {
-   "desk": "BTC-5m",
-   "outcome": "Down",
-   "result": "WIN",
-   "avgPrice": 0.83341398,
-   "cost": 1.9501887132,
-   "shares": 2.34
-  },
-  {
-   "desk": "BTC-5m",
-   "outcome": "Up",
-   "result": "WIN",
-   "avgPrice": 0.53956973,
-   "cost": 2.7841798068,
-   "shares": 5.16
-  },
-  {
-   "desk": "BTC-5m",
-   "outcome": "Down",
-   "result": "LOSS",
-   "avgPrice": 0.31632653,
-   "cost": 2.4452040769,
-   "shares": 7.73
-  },
-  {
-   "desk": "BTC-5m",
-   "outcome": "Up",
-   "result": "WIN",
-   "avgPrice": 0.64728192,
-   "cost": 2.9969152896,
-   "shares": 4.63
-  },
-  {
-   "desk": "BTC-5m",
-   "outcome": "Down",
-   "result": "WIN",
-   "avgPrice": 0.66687079,
-   "cost": 2.9942498471,
-   "shares": 4.49
-  },
-  {
-   "desk": "BTC-5m",
-   "outcome": "Up",
-   "result": "WIN",
-   "avgPrice": 0.85301063,
-   "cost": 2.9940673113,
-   "shares": 3.51
+   "where": "plan",
+   "code": "COOLDOWN",
+   "diag": "BTC-5m paused after 4 realized losses >= 3. Hypothesis: adverse regime; pause until losses age out / edge model is reviewed."
   }
- ]
+ ],
+ "summary": "DRY run 0d46f92d65 (BTC-5m): 4 phases, exec=0, errors=5, pnl_cum=$0.6525"
 }
