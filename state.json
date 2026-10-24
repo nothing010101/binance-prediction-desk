@@ -1,6 +1,6 @@
 {
- "run_id": "7f57c0dc6e",
- "ts": "2026-10-24T20:36:29.289524+00:00",
+ "run_id": "562f767136",
+ "ts": "2026-10-24T20:43:35.465419+00:00",
  "dry_run": true,
  "desk": "BTC-5m",
  "scope_symbol": "BTCUSDT",
@@ -10,7 +10,7 @@
   "max_bet": 3.0,
   "min_bet": 0.5,
   "edge_threshold": 0.03,
-  "strong_edge": 0.06,
+  "strong_edge": 0.1,
   "slippage_bps": 300,
   "min_liquidity": 2000.0,
   "min_tte_ms": 60000,
@@ -70,5 +70,5 @@
    "diag": "Wallet not logged in. baw session is at ~/.baw/session.json (local disk) \u2014 wiped on sandbox reset. Re-pair via `baw auth signin` (QR scan). baw binary persists in the agent snapshot; the session does not."
   }
  ],
- "summary": "DRY run 7f57c0dc6e (BTC-5m): analyze failed \u2014 see errors."
+ "summary": "DRY run 562f767136 (BTC-5m): analyze failed \u2014 see errors."
 }
