@@ -1,17 +1,13 @@
 {
- "run_id": "4eadbd0701",
- "ts": "2026-10-24T19:46:20.957796+00:00",
+ "run_id": "eb1be05164",
+ "ts": "2026-10-24T19:46:32.291143+00:00",
  "dry_run": true,
  "desk": "BTC-5m",
  "scope_symbol": "BTCUSDT",
  "scope_timeframe": "5 min",
  "config": {
   "bet_amount": 1.0,
-  "max_bet": 3.0,
-  "min_bet": 0.5,
   "edge_threshold": 0.03,
-  "strong_edge": 0.06,
-  "slippage_bps": 300,
   "min_liquidity": 2000.0,
   "min_tte_ms": 60000,
   "cooldown_losses": 3
@@ -31,8 +27,8 @@
    "address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
    "binanceChainId": "56",
    "balance": "0.000102891103345",
-   "price": "728.974344691904766702155150081472323665",
-   "value": "0.07500497463554842"
+   "price": "729.129184650521084093568759113840833583",
+   "value": "0.07502090628973235"
   }
  ],
  "phases": [
@@ -52,15 +48,15 @@
   {
    "name": "Rencanakan",
    "status": "COOLDOWN",
-   "detail": "best=Down edge_net=-0.045 | liq $21994 tte 215677ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (4 losses >= 3)",
+   "detail": "best=Down edge_net=-0.115 | liq $21994 tte 204453ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (4 losses >= 3)",
    "best": {
     "side": "Down",
-    "price": 0.69,
-    "chance": 0.695,
+    "price": 0.7,
+    "chance": 0.705,
     "edge_gross": 0.005,
     "fee": 0.02,
-    "slip": 0.03,
-    "edge_net": -0.045,
+    "slip": 0.1,
+    "edge_net": -0.115,
     "tokenId": "67649118604041960538375721759334454431478707066185652406920074394911852492988"
    },
    "checks": {
@@ -73,10 +69,10 @@
   {
    "name": "Memutuskan+Eksekusi",
    "status": "SKIP",
-   "detail": "edge_net -0.045 < 0.03",
+   "detail": "edge_net -0.115 < 0.03",
    "side": null,
    "action": "SKIP",
-   "reason": "EDGE_TOO_LOW(-0.045)"
+   "reason": "EDGE_TOO_LOW(-0.115)"
   }
  ],
  "market": {
@@ -93,8 +89,8 @@
    {
     "name": "Up",
     "translatedName": null,
-    "price": 0.31,
-    "chance": 0.305,
+    "price": 0.3,
+    "chance": 0.295,
     "index": 0,
     "marketOutcomeId": 42020564,
     "tokenId": "83091426642215234046822427021930775928713352625977492619381622316236452480403",
@@ -103,8 +99,8 @@
    {
     "name": "Down",
     "translatedName": null,
-    "price": 0.69,
-    "chance": 0.695,
+    "price": 0.7,
+    "chance": 0.705,
     "index": 1,
     "marketOutcomeId": 42020565,
     "tokenId": "67649118604041960538375721759334454431478707066185652406920074394911852492988",
@@ -113,15 +109,15 @@
   ],
   "best": {
    "side": "Down",
-   "price": 0.69,
-   "chance": 0.695,
+   "price": 0.7,
+   "chance": 0.705,
    "edge_gross": 0.005,
    "fee": 0.02,
-   "slip": 0.03,
-   "edge_net": -0.045,
+   "slip": 0.1,
+   "edge_net": -0.115,
    "tokenId": "67649118604041960538375721759334454431478707066185652406920074394911852492988"
   },
-  "tte_ms": 215677
+  "tte_ms": 204453
  },
  "sim_positions": [],
  "live_positions": [],
@@ -155,5 +151,5 @@
    "diag": "BTC-5m paused after 4 realized losses >= 3. Hypothesis: adverse regime; pause until losses age out / edge model is reviewed."
   }
  ],
- "summary": "DRY run 4eadbd0701 (BTC-5m): 4 phases, exec=0, errors=1, pnl_cum=$1.6934"
+ "summary": "DRY run eb1be05164 (BTC-5m): 4 phases, exec=0, errors=1, pnl_cum=$1.6934"
 }
