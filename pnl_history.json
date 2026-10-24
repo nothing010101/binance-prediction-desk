@@ -1,7 +1,7 @@
 [
  {
-  "ts": "2026-10-24T19:21:42.700847+00:00",
-  "run_id": "00abd340ec",
+  "ts": "2026-10-24T19:15:44.168718+00:00",
+  "run_id": "0d46f92d65",
   "cumulative_usd": 0.6525,
   "delta_usd": 0.6525,
   "wins": 9,
@@ -9,53 +9,8 @@
   "new_settled": 13
  },
  {
-  "ts": "2026-10-24T19:26:31.745569+00:00",
-  "run_id": "b70836005e",
-  "cumulative_usd": 0.6525,
-  "delta_usd": 0,
-  "wins": 9,
-  "losses": 4,
-  "new_settled": 0
- },
- {
-  "ts": "2026-10-24T19:32:00.005410+00:00",
-  "run_id": "1c617f9e5d",
-  "cumulative_usd": 0.6525,
-  "delta_usd": 0,
-  "wins": 9,
-  "losses": 4,
-  "new_settled": 0
- },
- {
-  "ts": "2026-10-24T19:33:24.152062+00:00",
-  "run_id": "8aa9006075",
-  "cumulative_usd": 0.6525,
-  "delta_usd": 0,
-  "wins": 9,
-  "losses": 4,
-  "new_settled": 0
- },
- {
-  "ts": "2026-10-24T19:36:30.282565+00:00",
-  "run_id": "8157d90752",
-  "cumulative_usd": 0.6525,
-  "delta_usd": 0,
-  "wins": 9,
-  "losses": 4,
-  "new_settled": 0
- },
- {
-  "ts": "2026-10-24T19:41:29.120272+00:00",
-  "run_id": "8d92ab4ccd",
-  "cumulative_usd": 0.6525,
-  "delta_usd": 0,
-  "wins": 9,
-  "losses": 4,
-  "new_settled": 0
- },
- {
-  "ts": "2026-10-24T19:46:34.398770+00:00",
-  "run_id": "eb1be05164",
+  "ts": "2026-10-24T19:46:23.253244+00:00",
+  "run_id": "4eadbd0701",
   "cumulative_usd": 1.6934,
   "delta_usd": 1.0408,
   "wins": 10,
@@ -63,21 +18,12 @@
   "new_settled": 1
  },
  {
-  "ts": "2026-10-24T19:51:28.773975+00:00",
-  "run_id": "56c148bbf4",
-  "cumulative_usd": 1.6934,
-  "delta_usd": 0,
-  "wins": 10,
-  "losses": 4,
-  "new_settled": 0
- },
- {
-  "ts": "2026-10-24T19:56:33.559105+00:00",
-  "run_id": "4a64a81e42",
-  "cumulative_usd": 0.6936,
-  "delta_usd": -0.9998,
-  "wins": 10,
+  "ts": "2026-10-24T20:00:59.508900+00:00",
+  "run_id": "3427cde0be",
+  "cumulative_usd": 1.5454,
+  "delta_usd": -0.148,
+  "wins": 11,
   "losses": 5,
-  "new_settled": 1
+  "new_settled": 2
  }
 ]
