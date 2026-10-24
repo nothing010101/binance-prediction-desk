@@ -1,6 +1,6 @@
 {
- "run_id": "5eeb631a55",
- "ts": "2026-10-24T18:55:44.852269+00:00",
+ "run_id": "3a32814c83",
+ "ts": "2026-10-24T18:59:42.138148+00:00",
  "dry_run": true,
  "scope": [
   "BTC-5m",
@@ -24,8 +24,8 @@
    "address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
    "binanceChainId": "56",
    "balance": "0.000102891103345",
-   "price": "727.783841962271641622173959918888127475",
-   "value": "0.07488248249616124"
+   "price": "728.664637084303909726613158440137949884",
+   "value": "0.07497310847808802"
   }
  ],
  "desks": [
@@ -34,12 +34,12 @@
    "symbol": "BTCUSDT",
    "timeframe": "5 min",
    "status": "LIVE",
-   "tte_ms": 250838,
-   "liquidity": 24081.34,
+   "tte_ms": 13481,
+   "liquidity": 15381.26,
    "best": {
     "side": "Down",
-    "price": 0.36,
-    "chance": 0.365,
+    "price": 0.01,
+    "chance": 0.015,
     "edge_gross": 0.005,
     "fee": 0.02,
     "slip": 0.1,
@@ -54,8 +54,28 @@
    "symbol": "BTCUSDT",
    "timeframe": "15 min",
    "status": "REGISTERED",
-   "tte_ms": 250838,
-   "liquidity": 5085.88,
+   "tte_ms": 13481,
+   "liquidity": 3723.16,
+   "best": {
+    "side": "Up",
+    "price": 0.99,
+    "chance": 0.99,
+    "edge_gross": 0.0,
+    "fee": 0.02,
+    "slip": 0.1,
+    "edge_net": -0.12,
+    "tokenId": "96820409885593004659187021601078682642008869432730266383074779609579375300428"
+   },
+   "action": "SKIP",
+   "reason": "EDGE_TOO_LOW(-0.12)"
+  },
+  {
+   "desk": "ETH-15m",
+   "symbol": "ETHUSDT",
+   "timeframe": "15 min",
+   "status": "REGISTERED",
+   "tte_ms": 13481,
+   "liquidity": 2776.81,
    "best": {
     "side": "Down",
     "price": 0.04,
@@ -64,62 +84,22 @@
     "fee": 0.02,
     "slip": 0.1,
     "edge_net": -0.115,
-    "tokenId": "21595450316120095948070762049767360812921396331850992947806638456358353170262"
-   },
-   "action": "SKIP",
-   "reason": "EDGE_TOO_LOW(-0.115)"
-  },
-  {
-   "desk": "ETH-15m",
-   "symbol": "ETHUSDT",
-   "timeframe": "15 min",
-   "status": "REGISTERED",
-   "tte_ms": 250838,
-   "liquidity": 8933.86,
-   "best": {
-    "side": "Down",
-    "price": 0.01,
-    "chance": 0.02,
-    "edge_gross": 0.01,
-    "fee": 0.02,
-    "slip": 0.1,
-    "edge_net": -0.11,
     "tokenId": "62791158061148881122155917073325947719352869123437328492034901055039046738483"
    },
    "action": "SKIP",
-   "reason": "EDGE_TOO_LOW(-0.11)"
-  },
-  {
-   "desk": "BNB-15m",
-   "symbol": "BNBUSDT",
-   "timeframe": "15 min",
-   "status": "REGISTERED",
-   "tte_ms": 250838,
-   "liquidity": 1071.3,
-   "best": {
-    "side": "Down",
-    "price": 0.01,
-    "chance": 0.02,
-    "edge_gross": 0.01,
-    "fee": 0.02,
-    "slip": 0.1,
-    "edge_net": -0.11,
-    "tokenId": "98706915885836262859059019850689115912937963253092517183216029923306617555555"
-   },
-   "action": "SKIP",
-   "reason": "EDGE_TOO_LOW(-0.11)"
+   "reason": "EDGE_TOO_LOW(-0.115)"
   },
   {
    "desk": "ETH-5m",
    "symbol": "ETHUSDT",
    "timeframe": "5 min",
    "status": "LIVE",
-   "tte_ms": 250838,
-   "liquidity": 3386.0,
+   "tte_ms": 13481,
+   "liquidity": 3506.8,
    "best": {
     "side": "Down",
-    "price": 0.24,
-    "chance": 0.245,
+    "price": 0.01,
+    "chance": 0.015,
     "edge_gross": 0.005,
     "fee": 0.02,
     "slip": 0.1,
@@ -130,24 +110,44 @@
    "reason": "EDGE_TOO_LOW(-0.115)"
   },
   {
+   "desk": "BNB-15m",
+   "symbol": "BNBUSDT",
+   "timeframe": "15 min",
+   "status": "REGISTERED",
+   "tte_ms": 13481,
+   "liquidity": 998.28,
+   "best": {
+    "side": "Up",
+    "price": 0.99,
+    "chance": 0.99,
+    "edge_gross": 0.0,
+    "fee": 0.02,
+    "slip": 0.1,
+    "edge_net": -0.12,
+    "tokenId": "89334751592659314402173324362808080568952028974979366722169004534728616374907"
+   },
+   "action": "SKIP",
+   "reason": "EDGE_TOO_LOW(-0.12)"
+  },
+  {
    "desk": "BNB-5m",
    "symbol": "BNBUSDT",
    "timeframe": "5 min",
    "status": "LIVE",
-   "tte_ms": 250838,
-   "liquidity": 3073.85,
+   "tte_ms": 13481,
+   "liquidity": 969.72,
    "best": {
     "side": "Down",
-    "price": 0.37,
-    "chance": 0.39,
-    "edge_gross": 0.02,
+    "price": 0.02,
+    "chance": 0.05,
+    "edge_gross": 0.03,
     "fee": 0.02,
     "slip": 0.1,
-    "edge_net": -0.1,
+    "edge_net": -0.09,
     "tokenId": "83557551026742222350902562569437905075508660395031286294659290025558462340934"
    },
    "action": "SKIP",
-   "reason": "EDGE_TOO_LOW(-0.1)"
+   "reason": "EDGE_TOO_LOW(-0.09)"
   }
  ],
  "sim_positions": [],
@@ -213,7 +213,7 @@
   "expected_payout": 0.0,
   "ev": 0.0
  },
- "summary": "DRY run 5eeb631a55: 6 desks, 0 simulated, 0+skips, 1 errors.",
+ "summary": "DRY run 3a32814c83: 6 desks, 0 simulated, 0+skips, 1 errors.",
  "loss_history": [
   {
    "desk": "BTC-5m",
