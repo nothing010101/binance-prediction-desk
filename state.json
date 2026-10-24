@@ -1,6 +1,6 @@
 {
- "run_id": "3427cde0be",
- "ts": "2026-10-24T20:00:56.890953+00:00",
+ "run_id": "30e76604d2",
+ "ts": "2026-10-24T20:01:18.383971+00:00",
  "dry_run": true,
  "desk": "BTC-5m",
  "scope_symbol": "BTCUSDT",
@@ -23,25 +23,25 @@
    "address": "0x55d398326f99059fF775485246999027B3197955",
    "binanceChainId": "56",
    "balance": "15.611883989104469689",
-   "price": "0.998802814143736902572835654721032752",
-   "value": "15.593193662403095"
+   "price": "0.998664934144061710449943502000206859",
+   "value": "15.591041095843746"
   },
   {
    "symbol": "BNB",
    "address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
    "binanceChainId": "56",
    "balance": "0.000102891103345",
-   "price": "729.706383760811378725685750651336601014",
-   "value": "0.07508029494303987"
+   "price": "730.262738892889187642873759613916500082",
+   "value": "0.075137538936431"
   }
  ],
  "phases": [
   {
    "name": "Settle",
    "status": "OK",
-   "detail": "cumulative $1.5454 | 11W/5L | +2 settled",
-   "new_settled": 2,
-   "delta_usd": -0.148
+   "detail": "cumulative $1.5454 | 11W/5L | +0 settled",
+   "new_settled": 0,
+   "delta_usd": 0
   },
   {
    "name": "Analisa",
@@ -52,11 +52,11 @@
   {
    "name": "Rencanakan",
    "status": "COOLDOWN",
-   "detail": "best=Down edge_net=-0.045 | liq $16545 tte 239265ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (5 losses >= 3)",
+   "detail": "best=Down edge_net=-0.045 | liq $16545 tte 218084ms | pass={'edge': False, 'liquidity': True, 'tte': True, 'cooldown': False} | COOLDOWN (5 losses >= 3)",
    "best": {
     "side": "Down",
-    "price": 0.17,
-    "chance": 0.175,
+    "price": 0.04,
+    "chance": 0.045,
     "edge_gross": 0.005,
     "fee": 0.02,
     "slip": 0.03,
@@ -93,8 +93,8 @@
    {
     "name": "Up",
     "translatedName": null,
-    "price": 0.83,
-    "chance": 0.825,
+    "price": 0.96,
+    "chance": 0.955,
     "index": 0,
     "marketOutcomeId": 42022440,
     "tokenId": "803848277070702159432545324804863894409036720096531349162171187727792021356",
@@ -103,8 +103,8 @@
    {
     "name": "Down",
     "translatedName": null,
-    "price": 0.17,
-    "chance": 0.175,
+    "price": 0.04,
+    "chance": 0.045,
     "index": 1,
     "marketOutcomeId": 42022441,
     "tokenId": "13698705069191912117307874022386021470123930277877457700504725938376829673507",
@@ -113,15 +113,15 @@
   ],
   "best": {
    "side": "Down",
-   "price": 0.17,
-   "chance": 0.175,
+   "price": 0.04,
+   "chance": 0.045,
    "edge_gross": 0.005,
    "fee": 0.02,
    "slip": 0.03,
    "edge_net": -0.045,
    "tokenId": "13698705069191912117307874022386021470123930277877457700504725938376829673507"
   },
-  "tte_ms": 239265
+  "tte_ms": 218084
  },
  "sim_positions": [],
  "live_positions": [],
@@ -129,28 +129,7 @@
   "cumulative_usd": 1.5454,
   "wins": 11,
   "losses": 5,
-  "new": [
-   {
-    "positionId": 19892237,
-    "desk": "BTC-5m",
-    "outcome": "Down",
-    "shares": 1.85,
-    "cost": 0.9982040005,
-    "realized": 0.851796,
-    "win": true,
-    "title": "Bitcoin Up or Down - October 24, 3:55PM-4PM ET"
-   },
-   {
-    "positionId": 19888625,
-    "desk": "BTC-5m",
-    "outcome": "Down",
-    "shares": 2.13,
-    "cost": 0.9997959288,
-    "realized": -0.999796,
-    "win": false,
-    "title": "Bitcoin Up or Down - October 24, 3:50PM-3:55PM ET"
-   }
-  ]
+  "new": []
  },
  "pnl_dry": {
   "trades": 0,
@@ -160,15 +139,10 @@
  },
  "errors": [
   {
-   "where": "settle",
-   "code": "REALIZED_LOSS",
-   "diag": "BTC-5m settled LOSS on Down @ cost 0.9998 (shares 2.13). Hypothesis: adverse 5m move against the side. Net edge filter + cooldown mitigate; review edge model."
-  },
-  {
    "where": "plan",
    "code": "COOLDOWN",
    "diag": "BTC-5m paused after 5 realized losses >= 3. Hypothesis: adverse regime; pause until losses age out / edge model is reviewed."
   }
  ],
- "summary": "DRY run 3427cde0be (BTC-5m): 4 phases, exec=0, errors=2, pnl_cum=$1.5454"
+ "summary": "DRY run 30e76604d2 (BTC-5m): 4 phases, exec=0, errors=1, pnl_cum=$1.5454"
 }
