@@ -298,12 +298,17 @@ def finish(state, log):
     except Exception: pass
     with open(lpath,"w") as f: f.write(prev + json.dumps(log)+"\n")
     # push to github
+    pushed_ok = False
     if GH_TOKEN and GH_REPO:
-        with open(spath,"rb") as f: github_put("state.json", f.read(), f"run {state['run_id']} state")
-        with open(lpath,"rb") as f: github_put("log.jsonl", f.read(), f"run {state['run_id']} log")
+        with open(spath,"rb") as f: s_sha = github_put("state.json", f.read(), f"run {state['run_id']} state")
+        with open(lpath,"rb") as f: l_sha = github_put("log.jsonl", f.read(), f"run {state['run_id']} log")
+        pushed_ok = bool(s_sha) and bool(l_sha)
+        if not pushed_ok:
+            state["errors"].append({"where":"github_push","code":"PUSH_FAILED",
+                "diag":"state/log push to GitHub contents API failed (token/repo/permissions). Local state.json/log.jsonl still written."})
     print(json.dumps({"summary":state["summary"],"auth":state["auth"],
                       "desks":len(state["desks"]),"sim":len(state["sim_positions"]),
-                      "errors":len(state["errors"]),"pushed": bool(GH_TOKEN and GH_REPO)}, indent=1))
+                      "errors":len(state["errors"]),"pushed": pushed_ok}, indent=1))
     return state
 
 if __name__ == "__main__":
