@@ -35,8 +35,12 @@ Env (overridable):
 import os, sys, json, subprocess, time, urllib.request, urllib.error, datetime, hashlib, traceback, base64
 
 DRY_RUN        = os.environ.get("DRY_RUN", "1") != "0"
-BET_AMOUNT     = float(os.environ.get("BET_AMOUNT", "1"))
-EDGE_THRESHOLD = float(os.environ.get("EDGE_THRESHOLD", "0.03"))
+BET_AMOUNT     = float(os.environ.get("BET_AMOUNT", "1"))        # fallback flat bet (dry)
+MAX_BET        = float(os.environ.get("MAX_BET", "3"))            # ceiling per live trade (USDT)
+MIN_BET        = float(os.environ.get("MIN_BET", "0.5"))          # floor when marginally confident
+STRONG_EDGE    = float(os.environ.get("STRONG_EDGE", "0.06"))      # edge at which bet = MAX_BET
+EDGE_THRESHOLD = float(os.environ.get("EDGE_THRESHOLD", "0.03"))   # net edge required to enter at all
+SLIPPAGE_BPS   = int(os.environ.get("SLIPPAGE_BPS", "300"))        # tight slippage (3%) for live quotes
 MIN_LIQUIDITY  = float(os.environ.get("MIN_LIQUIDITY", "2000"))
 MIN_TTE_MS     = int(os.environ.get("MIN_TIME_TO_END_MS", "60000"))
 COOLDOWN_LOSSES= int(os.environ.get("COOLDOWN_LOSSES", "3"))
@@ -113,6 +117,26 @@ def phase_settle(state):
         st = json.load(open(seen_path))
     except Exception: st = {"seen_ids":[], "cumulative":0.0, "wins":0, "losses":0}
     seen = set(st.get("seen_ids",[]))
+    # Auto-redeem winning PENDING_CLAIM positions in scope (uses the POSITION tokenId,
+    # not the market outcome tokenId — the latter returns NOT_WINNING_POSITION).
+    pend = baw("prediction","position","list","--tab","PENDING_CLAIM","--limit","50")
+    redeemed=[]
+    if pend.get("success"):
+        for p in pend.get("data",{}).get("positions",[]) or []:
+            if map_to_desk(p) != DESK: continue
+            if not (bool(p.get("isWinner")) or p.get("result")=="WIN"): continue
+            ptid = p.get("tokenId")
+            if not ptid: continue
+            rd = baw("prediction","trade","redeem","--tokenIds",str(ptid),"--binanceChainId","56")
+            ok = bool(rd.get("success"))
+            redeemed.append({"positionId":p.get("positionId"),"redeem_ok":ok,
+                             "txHash":(rd.get("data") or {}).get("batchId"),
+                             "err":(rd.get("error") or {}).get("message") if not ok else None})
+            if not ok and (rd.get("error") or {}).get("message") != "NOT_WINNING_POSITION":
+                state["errors"].append({"where":"settle:redeem","code":"REDEEM_FAILED",
+                    "diag":f"Redeem for pos {p.get('positionId')} failed: {(rd.get('error') or {}).get('message')}. Will retry next run."})
+    if redeemed:
+        phase["detail"]+=f" | redeemed {sum(1 for r in redeemed if r['redeem_ok'])}/{len(redeemed)} pending wins"
     r = baw("prediction","position","settled-history","--l1Category","crypto","--limit","100")
     new=[]; cum=st.get("cumulative",0.0); wins=st.get("wins",0); losses=st.get("losses",0)
     if r.get("success"):
@@ -187,7 +211,7 @@ def phase_plan(state, m):
     phase={"name":"Rencanakan","status":"OK","detail":"","best":None}
     outs=state["market"]["outcomes"]
     fee=float(state["market"].get("feeRateBps",0))/1e4
-    slip=float(state["market"].get("slippageBps",0))/1e4
+    slip=SLIPPAGE_BPS/1e4   # use tight slippage, not the market's 10% default, for edge + live quotes
     best=None
     for o in outs:
         price=float(o.get("price",0) or 0); chance=float(o.get("chance",0) or 0)
@@ -227,29 +251,39 @@ def phase_execute(state, best, checks):
         state["phases"].append(phase); return
     # decide
     phase["side"]=best["side"]; phase["status"]="DECIDED"
+    # bet sizing: linear from EDGE_THRESHOLD (MIN_BET) to STRONG_EDGE (MAX_BET); cap by 25% of balance
+    bal_usdt=0.0
+    for b in state.get("balance",[]) or []:
+        if b.get("symbol")=="USDT": bal_usdt=float(b.get("balance","0") or 0)
+    span=max(1e-6, STRONG_EDGE-EDGE_THRESHOLD)
+    frac=min(1.0, max(0.0, (best["edge_net"]-EDGE_THRESHOLD)/span))
+    bet=min(MAX_BET, MIN_BET + (MAX_BET-MIN_BET)*frac)
+    bet=max(MIN_BET, min(bet, bal_usdt*0.25)) if bal_usdt>0 else bet
+    bet=round(bet, 2)
+    state["bet_size"]=bet; phase["bet"]=bet
     # execute
     if DRY_RUN:
-        price=best["price"]; shares=BET_AMOUNT/price if price>0 else 0
-        payout_if_win=shares*1.0; ev=shares*best["chance"]-BET_AMOUNT
+        price=best["price"]; shares=bet/price if price>0 else 0
+        payout_if_win=shares*1.0; ev=shares*best["chance"]-bet
         pos={"run_id":state["run_id"],"desk":DESK,"side":best["side"],"price":price,"chance":best["chance"],
-             "amount":BET_AMOUNT,"shares":round(shares,4),"cost":BET_AMOUNT,"payout_if_win":round(payout_if_win,4),
-             "ev":round(ev,4),"edge_net":best["edge_net"],"dry":True,"ts":iso()}
+             "amount":bet,"shares":round(shares,4),"cost":bet,"payout_if_win":round(payout_if_win,4),
+             "ev":round(ev,4),"edge_net":best["edge_net"],"bet":bet,"dry":True,"ts":iso()}
         state["sim_positions"].append(pos)
-        state["pnl_dry"]["trades"]+=1; state["pnl_dry"]["cost"]+=BET_AMOUNT
+        state["pnl_dry"]["trades"]+=1; state["pnl_dry"]["cost"]+=bet
         state["pnl_dry"]["expected_payout"]+=payout_if_win*best["chance"]; state["pnl_dry"]["ev"]+=ev
-        phase["action"]="SIMULATE_BUY"; phase["status"]="EXECUTED_DRY"; phase["detail"]=f"SIM {best['side']} ${BET_AMOUNT} @ {price} (ev {ev:.4f})"
+        phase["action"]="SIMULATE_BUY"; phase["status"]="EXECUTED_DRY"; phase["detail"]=f"SIM {best['side']} ${bet} @ {price} (ev {ev:.4f})"
     else:
-        # live: quote then place-order
+        # live: quote then place-order with tight slippage and sized amount
         q=baw("prediction","trade","quote","--binanceChainId","56","--tokenId",best["tokenId"],
-             "--marketTopicId",str(state["market"]["marketTopicId"]),"--side","BUY","--amount",str(BET_AMOUNT),
-             "--orderType","MARKET")
+             "--marketTopicId",str(state["market"]["marketTopicId"]),"--side","BUY","--amount",str(bet),
+             "--orderType","MARKET","--slippageBps",str(SLIPPAGE_BPS))
         if not q.get("success"):
             c,msg=classify(q.get("_err") or q.get("error",{}))
             phase["status"]="ERROR"; phase["reason"]=c; phase["detail"]=f"quote failed: {msg}"
             state["errors"].append({"where":"execute:quote","code":c,"diag":msg})
             state["phases"].append(phase); return
         qid=q["data"].get("quoteId") or q["data"].get("quoteId")
-        slip=q["data"].get("slippageBps", state["market"].get("slippageBps"))
+        slip=q["data"].get("slippageBps", SLIPPAGE_BPS)
         po=baw("prediction","trade","place-order","--quoteId",qid,"--slippageBps",str(slip))
         if not po.get("success"):
             c,msg=classify(po.get("_err") or po.get("error",{}))
@@ -263,7 +297,8 @@ def phase_execute(state, best, checks):
 def main():
     rid=hashlib.sha256(str(now_ms()).encode()).hexdigest()[:10]
     state={"run_id":rid,"ts":iso(),"dry_run":DRY_RUN,"desk":DESK,"scope_symbol":SCOPE_SYMBOL,
-           "scope_timeframe":SCOPE_TIMEFRAME,"config":{"bet_amount":BET_AMOUNT,"edge_threshold":EDGE_THRESHOLD,
+           "scope_timeframe":SCOPE_TIMEFRAME,"config":{"bet_amount":BET_AMOUNT,"max_bet":MAX_BET,"min_bet":MIN_BET,
+           "edge_threshold":EDGE_THRESHOLD,"strong_edge":STRONG_EDGE,"slippage_bps":SLIPPAGE_BPS,
            "min_liquidity":MIN_LIQUIDITY,"min_tte_ms":MIN_TTE_MS,"cooldown_losses":COOLDOWN_LOSSES},
            "auth":None,"balance":[],"phases":[],"market":None,"sim_positions":[],"live_positions":[],
            "pnl":None,"pnl_dry":{"trades":0,"cost":0.0,"expected_payout":0.0,"ev":0.0},"errors":[],
